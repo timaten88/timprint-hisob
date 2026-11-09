@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Tim Print — Buyurtma kiritish</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>
+<link rel="preconnect" href="https://script.google.com"><link rel="preconnect" href="https://script.googleusercontent.com" crossorigin><style>
 :root{--navy:#3A10D8;--cy:#3A10D8;--mg:#D8397F;--ye:#FF8A4C;--gr:#00a86b;--or:#FF8A4C;--pu:#8A1CD0;--bg:#F4F1FD;--card:#fff;--ink:#1c1536;--mut:#6f6a85;--line:#e4def5;--grad:linear-gradient(135deg,#3A10D8 0%,#5B14E6 45%,#8A1CD0 75%,#D8397F 100%)}
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
@@ -188,13 +188,13 @@ function parseHash(s){var out={};if(!s)return out;s=String(s);if(s.charAt(0)==='
  s.split('&').forEach(function(p){var i=p.indexOf('=');if(i>0){try{out[p.slice(0,i)]=decodeURIComponent(p.slice(i+1))}catch(e){}}});return out}
 function load(){
  show('⏳','Yuklanmoqda...','Mijozlar va narxlar olinmoqda.');
- api({op:'init'}).then(function(r){
+ (function(){var cc=null;try{cc=JSON.parse(localStorage.getItem('by_init')||'null')}catch(e){}if(cc&&cc.r&&cc.r.ok&&Date.now()-cc.t<86400000){D=cc.r;if(!S)resetForm();render()}})();api({op:'init'}).then(function(r){
   if(!r||!r.ok){var c=r&&r.code;
    if(c==='ruxsat')show('🔒','Ruxsat yo’q','Sizga operator ruxsati hali berilmagan. Botga /start yozing, so’rov egasiga ketadi.');
    else if(c==='auth')show('🔒','Kirish tasdiqlanmadi','Sahifani Telegramdagi bot orqali qayta oching.','Qayta urinish');
    else show('⚠️','Xatolik',(r&&r.msg)||'Noma’lum xato.','Qayta urinish');return}
-  D=r;if(!S)resetForm();render();
- }).catch(function(){show('⚠️','Aloqa xatosi','Ma’lumot olinmadi. Internetni tekshirib, qayta urinib ko’ring.','Qayta urinish')});
+  try{localStorage.setItem('by_init',JSON.stringify({t:Date.now(),r:r}))}catch(e){}if(D&&S&&(S.cid||S.q||S.qty||S.paid||S.note||S.mat)){D=r}else{D=r;if(!S)resetForm();render()}
+ }).catch(function(){if(D)return;show('⚠️','Aloqa xatosi','Ma’lumot olinmadi. Internetni tekshirib, qayta urinib ko’ring.','Qayta urinish')});
 }
 tabs.onclick=function(e){var b=e.target;while(b&&b!==tabs&&!(b.getAttribute&&b.getAttribute('data-t')))b=b.parentNode;if(b&&b.getAttribute&&b.getAttribute('data-t')){tab=b.getAttribute('data-t');render();window.scrollTo(0,0);if(tab==='today')api({op:'today'}).then(function(r){if(r&&r.ok){D.today=r.today;if(tab==='today')render()}}).catch(function(){})}};
 try{var tw=window.Telegram&&Telegram.WebApp;if(tw){tw.ready();tw.expand();try{tw.setHeaderColor('#3A10D8');tw.setBackgroundColor('#F4F1FD')}catch(e){}if(tw.initData)auth.i=tw.initData}}catch(e){}
