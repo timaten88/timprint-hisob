@@ -11,7 +11,7 @@
 html,body{background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",Roboto,Arial,Helvetica,sans-serif;font-size:14px;-webkit-text-size-adjust:100%}
 body{min-height:100vh;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .tg{background:var(--grad);color:#fff;padding:12px 16px 12px;display:flex;align-items:center;gap:10px}
-.tg .lg{height:34px;width:auto;display:block}
+.tg .lg{height:34px;width:auto;display:block}h
 .tg .tt{flex:1;min-width:0}.tg small{display:block;font-size:12px;opacity:.85;margin-top:5px;font-weight:600}
 .tg button{background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:8px;padding:6px 10px;font-size:13px}
 .strip{height:3px;background:var(--ye)}
@@ -222,7 +222,7 @@ function rep(){
  return h;
 }
 function wmark(){
- var el=document.getElementById('wm');if(!el||!D)return;
+ var el=document.getElementById('wm');if(!el||!D)return;if(D.admin){el.style.backgroundImage='none';return}
  var n=new Date(),p=function(x){return (x<10?'0':'')+x};
  var t=String(D.name||'').slice(0,24)+' · '+String(D.id||'')+' · '+p(n.getDate())+'.'+p(n.getMonth()+1)+' '+p(n.getHours())+':'+p(n.getMinutes());
  var x=t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
