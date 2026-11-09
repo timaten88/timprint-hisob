@@ -56,10 +56,16 @@ select.sel{width:100%;padding:8px;border-radius:8px;border:1px solid var(--line)
 .sheet button{margin-top:12px;width:100%;background:var(--navy);color:#fff;border:0;border-radius:10px;padding:11px;font-size:14px;font-weight:700}
 .empty{padding:18px 12px;color:var(--mut);font-size:13px;text-align:center}
 .foot{font-size:11px;color:var(--mut);text-align:center;margin:14px 0 0}
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,select,textarea{-webkit-user-select:text;user-select:text}
+#wm{position:fixed;left:0;top:0;right:0;bottom:0;z-index:50;pointer-events:none;background-repeat:repeat}
+.rv{display:flex;align-items:center;gap:10px;padding:8px max(14px,env(safe-area-inset-left,0px));background:#fff;border-bottom:1px solid var(--line)}
+.rv button{border:0;background:var(--navy);color:#fff;border-radius:18px;padding:8px 14px;font-size:13px;font-weight:700;white-space:nowrap}
+.rv span{font-size:11.5px;color:var(--mut);line-height:1.25}
 </style></head><body>
 <div class="tg"><div class="logo">T</div><div class="tt"><b>TIMPRINT</b><small id="sub">Mening hisobim</small></div><button id="rf" type="button" hidden>⟳</button></div>
 <div class="strip"></div>
-<div id="app"><div class="msg"><div class="e">⏳</div><h2>Yuklanmoqda...</h2><p>Ma'lumotlaringiz tayyorlanmoqda.</p></div></div>
+<div id="wm" aria-hidden="true"></div><div id="rv" class="rv" hidden><button type="button" id="rvb">👁 Summalarni ko’rsat</button><span>Xavfsizlik uchun summalar yashirin turadi</span></div><div id="app"><div class="msg"><div class="e">⏳</div><h2>Yuklanmoqda...</h2><p>Ma'lumotlaringiz tayyorlanmoqda.</p></div></div>
 <div class="tab" id="tabs" hidden>
 <button type="button" data-t="home" class="on"><i>🏠</i>Bosh</button>
 <button type="button" data-t="orders"><i>📦</i>Buyurtmalar</button>
@@ -72,7 +78,20 @@ var MO=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentyabr'
 var MS=['Yan','Fev','Mar','Apr','May','Iyn','Iyl','Avg','Sen','Okt','Noy','Dek'];
 var TN={D:'DTF',U:'UV DTF',P:'Press',X:'Boshqa'};
 var D=null,O=[],P=[],tab='home',F={type:'all',per:'all',from:'',to:''},R={from:'',to:''},auth={i:'',k:'',c:''},dbg={loc:0,hash:0,hi:0,kp:0,tw:0};
-var app=document.getElementById('app'),tabs=document.getElementById('tabs');
+var app=document.getElementById('app'),tabs=document.getElementById('tabs'),rv=document.getElementById('rv'),rvb=document.getElementById('rvb');
+var SHOW=false,RV_T=null,RV_N=0;
+function mf(n){return SHOW?fmt(n):'•••••'}
+function rvHide(){
+ if(RV_T){clearInterval(RV_T);RV_T=null}
+ SHOW=!!(D&&D.admin);
+ var sh=document.querySelectorAll('.shade'),i;for(i=0;i<sh.length;i++){var w=sh[i].parentNode;if(w&&w.parentNode)w.parentNode.removeChild(w)}
+ if(D)render();
+}
+function rvShow(){
+ if(!D||D.admin||RV_T)return;
+ SHOW=true;RV_N=10;render();
+ RV_T=setInterval(function(){RV_N--;if(RV_N<=0){rvHide()}else{rvb.textContent='👁 '+RV_N+' s · yashirish'}},1000);
+}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function fmt(n){n=Math.round(n||0);var s=String(Math.abs(n)),o='';while(s.length>3){o=','+s.slice(-3)+o;s=s.slice(0,-3)}return (n<0?'-':'')+s+o}
 function fm(n){var s=(Math.round((n||0)*1000)/1000).toFixed(3);if(s.charAt(s.length-1)==='0')s=s.slice(0,-1);return s}
@@ -84,16 +103,16 @@ function mname(k){return MO[Number(k.slice(5,7))-1]+' '+k.slice(0,4)}
 function today(){return D&&D.now?D.now:new Date().toISOString().slice(0,10)}
 function qtyTxt(o){return o.c==='P'?(fd(o.q)+' dona'):(fm(o.q)+' m')}
 function pill(c){return '<span class="pill p-'+c+'">'+TN[c]+'</span>'}
-function status(o){return o.db>0.5?(o.db<net(o)-0.5?'<small class="bad">qoldiq '+fmt(o.db)+'</small>':'<small class="bad">to’lanmagan</small>'):'<small class="ok">to’langan</small>'}
+function status(o){return o.db>0.5?(o.db<net(o)-0.5?'<small class="bad">qoldiq '+mf(o.db)+'</small>':'<small class="bad">to’lanmagan</small>'):'<small class="ok">to’langan</small>'}
 function net(o){return (o.t||0)-(o.ds||0)}
 
 function show(emoji,title,text,btn){
- tabs.hidden=true;document.getElementById('rf').hidden=true;
+ tabs.hidden=true;document.getElementById('rf').hidden=true;rv.hidden=true;
  app.innerHTML='<div class="msg"><div class="e">'+emoji+'</div><h2>'+esc(title)+'</h2><p>'+esc(text)+'</p>'+(btn?'<button type="button" id="again">'+esc(btn)+'</button>':'')+'</div>';
  var b=document.getElementById('again');if(b)b.onclick=function(){load(auth.c)};
 }
 function prep(d){
- D=d;O=d.o.map(function(r){return {d:r[0],c:r[1],m:r[2],q:r[3],pr:r[4],t:r[5],pd:r[6],db:r[7],n:r[8],ds:r[9]}});
+ D=d;if(RV_T){clearInterval(RV_T);RV_T=null}SHOW=!!d.admin;O=d.o.map(function(r){return {d:r[0],c:r[1],m:r[2],q:r[3],pr:r[4],t:r[5],pd:r[6],db:r[7],n:r[8],ds:r[9]}});
  O.sort(function(a,b){return a.d<b.d?1:(a.d>b.d?-1:0)});
  // alohida to’lovlarni eng eski buyurtmalardan boshlab taqsimlaymiz (avval eski qarz, keyin buyurtmalar)
  var sep=0;d.p.forEach(function(r){if(r[1]>0)sep+=r[1]});
@@ -119,7 +138,7 @@ function agg(list){
  list.forEach(function(o){a[o.c]+=o.q;a.sum+=net(o);a.pd+=o.pd;a.db+=o.db});return a;
 }
 function row(o){
- return '<div class="li" data-i="'+O.indexOf(o)+'"><div class="d">'+dm(o.d)+'<br>'+o.d.slice(0,4)+'</div><div class="m"><b>'+pill(o.c)+qtyTxt(o)+'</b><span>'+fmt(o.pr)+(o.n?' · '+esc(o.n):'')+'</span></div><div class="s">'+fmt(net(o))+status(o)+'</div></div>';
+ return '<div class="li" data-i="'+O.indexOf(o)+'"><div class="d">'+dm(o.d)+'<br>'+o.d.slice(0,4)+'</div><div class="m"><b>'+pill(o.c)+qtyTxt(o)+'</b><span>'+mf(o.pr)+(o.n?' · '+esc(o.n):'')+'</span></div><div class="s">'+mf(net(o))+status(o)+'</div></div>';
 }
 function bindRows(){
  var rs=app.querySelectorAll('.li[data-i]');
@@ -127,9 +146,9 @@ function bindRows(){
 }
 function sheet(o){
  var h='<div class="shade" id="sh"><div class="sheet"><h3>'+pill(o.c)+esc(o.m||TN[o.c])+'</h3>'
- +kv('Sana',dmy(o.d))+kv(o.c==='P'?'Soni':'Metr',qtyTxt(o))+kv('Narxi',fmt(o.pr)+' so’m')+kv('Summa',fmt(o.t)+' so’m');
- if(o.ds>0)h+=kv('Chegirma','-'+fmt(o.ds)+' so’m');
- h+=kv('To’langan',fmt(net(o)-o.db)+' so’m')+kv('To’lanmagan',o.db>0.5?'<b class="bad">'+fmt(o.db)+' so’m</b>':'<b class="ok">yo’q</b>');
+ +kv('Sana',dmy(o.d))+kv(o.c==='P'?'Soni':'Metr',qtyTxt(o))+kv('Narxi',mf(o.pr)+' so’m')+kv('Summa',mf(o.t)+' so’m');
+ if(o.ds>0)h+=kv('Chegirma','-'+mf(o.ds)+' so’m');
+ h+=kv('To’langan',mf(net(o)-o.db)+' so’m')+kv('To’lanmagan',o.db>0.5?'<b class="bad">'+mf(o.db)+' so’m</b>':'<b class="ok">yo’q</b>');
  if(o.n)h+=kv('Izoh',esc(o.n));
  h+='<button type="button" id="shc">Yopish</button></div></div>';
  var w=document.createElement('div');w.innerHTML=h;document.body.appendChild(w);
@@ -144,9 +163,9 @@ function home(){
  P.forEach(function(p){paidAll+=p.a});
  var base=tot+D.eski,pc=base>0?Math.max(0,Math.min(100,Math.round(paidAll/base*100))):0;
  var a=agg(O),h='<div class="hello">Salom, '+esc(D.name)+'</div><div class="meta">Mijoz ID: '+esc(D.id)+' · '+O.length+' ta buyurtma'+(O.length?' · birinchisi '+dmy(O[O.length-1].d):'')+'</div>';
- h+='<div class="tiles"><div class="t mg"><small>'+(qarz<-0.5?'Avansim':'Qarzim')+'</small><b>'+fmt(Math.abs(qarz))+'</b><span>'+(qarz<-0.5?'oldindan to’langan':'to’lanmagan qoldiq')+'</span>';
- if(qarz>0.5||base>0)h+='<div class="bar"><i style="width:'+pc+'%"></i></div><span style="display:block;margin-top:4px">Jami summaning '+pc+'% i to’langan</span>';
- h+='</div><div class="t cy"><small>Jami summa</small><b>'+fmt(tot)+'</b><span>barcha davr'+(D.eski?' · eski qarz '+fmt(D.eski):'')+'</span></div><div class="t gr"><small>To’langan</small><b>'+fmt(paidAll)+'</b><span>'+P.length+' ta to’lov</span></div></div>';
+ h+='<div class="tiles"><div class="t mg"><small>'+(qarz<-0.5?'Avansim':'Qarzim')+'</small><b>'+mf(Math.abs(qarz))+'</b><span>'+(qarz<-0.5?'oldindan to’langan':'to’lanmagan qoldiq')+'</span>';
+ if(SHOW&&(qarz>0.5||base>0))h+='<div class="bar"><i style="width:'+pc+'%"></i></div><span style="display:block;margin-top:4px">Jami summaning '+pc+'% i to’langan</span>';
+ h+='</div><div class="t cy"><small>Jami summa</small><b>'+mf(tot)+'</b><span>barcha davr'+(D.eski?' · eski qarz '+mf(D.eski):'')+'</span></div><div class="t gr"><small>To’langan</small><b>'+mf(paidAll)+'</b><span>'+P.length+' ta to’lov</span></div></div>';
  h+='<div class="h">Nechta metr chiqarilgan</div><div class="tiles"><div class="t cy"><small>DTF (metr)</small><b>'+fm(a.D)+'</b></div><div class="t pu"><small>UV DTF (metr)</small><b>'+fm(a.U)+'</b></div>';
  if(a.P>0)h+='<div class="t or"><small>Press (dona)</small><b>'+fd(a.P)+'</b></div>';
  if(a.X>0)h+='<div class="t nv"><small>Boshqa</small><b>'+fm(a.X)+'</b></div>';
@@ -163,7 +182,7 @@ function orders(){
  h+='<button type="button" class="chip'+(F.per==='range'?' on':'')+'" data-fp="range">Sana tanlash ▾</button></div>';
  if(F.per==='range')h+='<div class="rng"><label>Dan<input type="date" id="ff" value="'+F.from+'"></label><label>Gacha<input type="date" id="ft" value="'+F.to+'"></label></div>';
  var mt=F.type==='P'?fd(a.P)+' dona':fm(a.D+a.U+a.X)+' m';
- h+='<div class="sum"><div><small>'+(F.type==='P'?'Soni':'Metr')+'</small><b>'+mt+'</b></div><div><small>Summa</small><b>'+fmt(a.sum)+'</b></div><div><small>To’lanmagan</small><b class="'+(a.db>0.5?'bad':'ok')+'">'+fmt(a.db)+'</b></div></div><div class="tl" style="padding-top:8px">Umumiy qarzingiz (alohida to’lovlar hisobga olingan): <b class="'+(D.qarz>0.5?'bad':'ok')+'">'+fmt(Math.abs(D.qarz))+(D.qarz<-0.5?' avans':'')+'</b></div>';
+ h+='<div class="sum"><div><small>'+(F.type==='P'?'Soni':'Metr')+'</small><b>'+mt+'</b></div><div><small>Summa</small><b>'+mf(a.sum)+'</b></div><div><small>To’lanmagan</small><b class="'+(a.db>0.5?'bad':'ok')+'">'+mf(a.db)+'</b></div></div><div class="tl" style="padding-top:8px">Umumiy qarzingiz (alohida to’lovlar hisobga olingan): <b class="'+(D.qarz>0.5?'bad':'ok')+'">'+mf(Math.abs(D.qarz))+(D.qarz<-0.5?' avans':'')+'</b></div>';
  if(!list.length)return h+'<div class="card" style="margin-top:10px"><div class="empty">Bu tanlovda buyurtma topilmadi</div></div>';
  h+='<div class="card" style="margin-top:10px">';var cur='';
  list.slice(0,300).forEach(function(o){k=ym(o.d);if(k!==cur){cur=k;h+='<div class="mh">'+mname(k)+'</div>'}h+=row(o)});
@@ -172,11 +191,11 @@ function orders(){
 }
 function pay(){
  var paidAll=0;P.forEach(function(p){paidAll+=p.a});
- var h='<div class="sum"><div><small>Jami to’langan</small><b class="ok">'+fmt(paidAll)+'</b></div><div><small>'+(D.qarz<-0.5?'Avans':'Qarz qoldig’i')+'</small><b class="'+(D.qarz>0.5?'bad':'ok')+'">'+fmt(Math.abs(D.qarz))+'</b></div></div><div class="h">To’lovlar tarixi</div>';
+ var h='<div class="sum"><div><small>Jami to’langan</small><b class="ok">'+mf(paidAll)+'</b></div><div><small>'+(D.qarz<-0.5?'Avans':'Qarz qoldig’i')+'</small><b class="'+(D.qarz>0.5?'bad':'ok')+'">'+mf(Math.abs(D.qarz))+'</b></div></div><div class="h">To’lovlar tarixi</div>';
  if(!P.length)return h+'<div class="card"><div class="empty">Hali to’lov yo’q</div></div>';
  h+='<div class="card">';var cur='';
  P.slice(0,300).forEach(function(p){var k=ym(p.d);if(k!==cur){cur=k;h+='<div class="mh">'+mname(k)+'</div>'}
-  h+='<div class="li" style="cursor:default"><div class="d">'+dm(p.d)+'<br>'+p.d.slice(0,4)+'</div><div class="m"><b>'+fmt(p.a)+'</b><span>'+esc(p.l)+'</span></div><div class="s ok">✓</div></div>'});
+  h+='<div class="li" style="cursor:default"><div class="d">'+dm(p.d)+'<br>'+p.d.slice(0,4)+'</div><div class="m"><b>'+mf(p.a)+'</b><span>'+esc(p.l)+'</span></div><div class="s ok">✓</div></div>'});
  return h+'</div>';
 }
 function setRange(f,t){R.from=f;R.to=t}
@@ -188,7 +207,7 @@ function rep(){
  P.forEach(function(p){if((!R.from||p.d>=R.from)&&(!R.to||p.d<=R.to)){tp+=p.a;np++}});
  h+='<div class="tiles" style="margin-top:10px"><div class="t cy"><small>DTF (metr)</small><b>'+fm(a.D)+'</b></div><div class="t pu"><small>UV DTF (metr)</small><b>'+fm(a.U)+'</b></div>';
  if(a.P>0)h+='<div class="t or"><small>Press (dona)</small><b>'+fd(a.P)+'</b></div>';
- h+='<div class="t nv"><small>Buyurtmalar</small><b>'+a.n+' ta</b></div><div class="t cy" style="background:var(--navy)"><small>Summa</small><b>'+fmt(a.sum)+'</b></div><div class="t gr"><small>To’landi</small><b>'+fmt(tp)+'</b><span>'+np+' ta to’lov</span></div></div>';
+ h+='<div class="t nv"><small>Buyurtmalar</small><b>'+a.n+' ta</b></div><div class="t cy" style="background:var(--navy)"><small>Summa</small><b>'+mf(a.sum)+'</b></div><div class="t gr"><small>To’landi</small><b>'+mf(tp)+'</b><span>'+np+' ta to’lov</span></div></div>';
  h+='<div class="tl">Tanlangan davrdagi buyurtmalar summasi va shu davrda qilingan to’lovlar.</div>';
  var mk={},ks;O.forEach(function(o){var k=ym(o.d);mk[k]=mk[k]||{D:0,U:0};if(o.c==='D'||o.c==='U')mk[k][o.c]+=o.q});
  ks=Object.keys(mk).sort().slice(-6);
@@ -201,8 +220,17 @@ function rep(){
  }
  return h;
 }
+function wmark(){
+ var el=document.getElementById('wm');if(!el||!D)return;
+ var n=new Date(),p=function(x){return (x<10?'0':'')+x};
+ var t=String(D.name||'').slice(0,24)+' · '+String(D.id||'')+' · '+p(n.getDate())+'.'+p(n.getMonth()+1)+' '+p(n.getHours())+':'+p(n.getMinutes());
+ var x=t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+ var svg='<svg xmlns="http://www.w3.org/2000/svg" width="400" height="190"><text x="200" y="95" text-anchor="middle" transform="rotate(-24 200 95)" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#1f2733" fill-opacity="0.11">'+x+'</text></svg>';
+ el.style.backgroundImage='url("data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg)+'")';
+}
 function render(){
  if(!D)return;
+ wmark();
  document.getElementById('sub').textContent={home:'Mening hisobim',orders:'Buyurtmalarim',pay:'To’lovlarim',rep:'Hisobot'}[tab];
  var h='';
  if(D.cust&&D.cust.length>1){h+='<select class="sel" id="cs">';D.cust.forEach(function(c){h+='<option value="'+esc(c.id)+'"'+(c.id===D.id?' selected':'')+'>'+esc(c.name)+' ('+esc(c.id)+')</option>'});h+='</select>'}
@@ -220,6 +248,7 @@ function render(){
  e=document.getElementById('cs');if(e)e.onchange=function(){load(this.value)};
  bindRows();
  tabs.hidden=false;document.getElementById('rf').hidden=false;
+ rv.hidden=!!D.admin;if(!D.admin){rvb.textContent=SHOW?('👁 '+RV_N+' s · yashirish'):'👁 Summalarni ko’rsat';rvb.onclick=SHOW?rvHide:rvShow}
  var tb=tabs.querySelectorAll('button');for(i=0;i<tb.length;i++)tb[i].className=tb[i].getAttribute('data-t')===tab?'on':'';
 }
 function quick(q){
@@ -264,6 +293,8 @@ function start(){
 }
 tabs.onclick=function(e){var b=e.target;while(b&&b!==tabs&&!b.getAttribute('data-t'))b=b.parentNode;if(b&&b.getAttribute&&b.getAttribute('data-t')){tab=b.getAttribute('data-t');render();window.scrollTo(0,0)}};
 document.getElementById('rf').onclick=function(){load(D?D.id:'')};
+document.addEventListener('visibilitychange',function(){if(document.hidden&&RV_T)rvHide()});
+document.addEventListener('contextmenu',function(e){var t=e.target&&e.target.tagName;if(t!=='INPUT'&&t!=='TEXTAREA')e.preventDefault()});
 start();
 })();
 </script>
