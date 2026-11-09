@@ -95,6 +95,12 @@ function show(emoji,title,text,btn){
 function prep(d){
  D=d;O=d.o.map(function(r){return {d:r[0],c:r[1],m:r[2],q:r[3],pr:r[4],t:r[5],pd:r[6],db:r[7],n:r[8],ds:r[9]}});
  O.sort(function(a,b){return a.d<b.d?1:(a.d>b.d?-1:0)});
+ // alohida to’lovlarni eng eski buyurtmalardan boshlab taqsimlaymiz (avval eski qarz, keyin buyurtmalar)
+ var sep=0;d.p.forEach(function(r){if(r[1]>0)sep+=r[1]});
+ O.forEach(function(x){var ex=(x.pd||0)-((x.t||0)-(x.ds||0));if(ex>0)sep+=ex});
+ if(d.eski>0)sep=Math.max(0,sep-d.eski);
+ var asc=O.slice().reverse();
+ asc.forEach(function(o){var rem=Math.max(0,(o.t||0)-(o.ds||0)-(o.pd||0));var use=Math.min(rem,sep);sep-=use;o.al=use;o.db=rem-use});
  P=[];
  d.p.forEach(function(r){var l=String(r[2]||'');if(l.indexOf('Tolovlar')>-1||l==='')l='Alohida to’lov';P.push({d:r[0],a:r[1],l:l})});
  O.forEach(function(o){if(o.pd>0)P.push({d:o.d,a:o.pd,l:'Buyurtma bilan: '+TN[o.c]})});
@@ -123,7 +129,7 @@ function sheet(o){
  var h='<div class="shade" id="sh"><div class="sheet"><h3>'+pill(o.c)+esc(o.m||TN[o.c])+'</h3>'
  +kv('Sana',dmy(o.d))+kv(o.c==='P'?'Soni':'Metr',qtyTxt(o))+kv('Narxi',fmt(o.pr)+' so’m')+kv('Summa',fmt(o.t)+' so’m');
  if(o.ds>0)h+=kv('Chegirma','-'+fmt(o.ds)+' so’m');
- h+=kv('To’langan',fmt(o.pd)+' so’m')+kv('To’lanmagan',o.db>0.5?'<b class="bad">'+fmt(o.db)+' so’m</b>':'<b class="ok">yo’q</b>');
+ h+=kv('To’langan',fmt(net(o)-o.db)+' so’m')+kv('To’lanmagan',o.db>0.5?'<b class="bad">'+fmt(o.db)+' so’m</b>':'<b class="ok">yo’q</b>');
  if(o.n)h+=kv('Izoh',esc(o.n));
  h+='<button type="button" id="shc">Yopish</button></div></div>';
  var w=document.createElement('div');w.innerHTML=h;document.body.appendChild(w);
