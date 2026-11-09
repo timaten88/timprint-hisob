@@ -232,7 +232,7 @@ function parseHash(s){
 var API='https://script.google.com/macros/s/AKfycbxrgvgBAe3sC-VPqLGj4a-qSWU872AotQ7y6bEdjXX7tsGUe-7_7qyUjiSYmCGLRU7M/exec';
 function withTimeout(p,ms){return new Promise(function(res,rej){var t=setTimeout(function(){rej(new Error('timeout'))},ms);p.then(function(v){clearTimeout(t);res(v)},function(e){clearTimeout(t);rej(e)})})}
 function apiPost(b){return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)}).then(function(r){return r.json()})}
-function apiGet(b){return fetch(API+'?m=1&api=1&i='+encodeURIComponent(b.i)+'&k='+encodeURIComponent(b.k)+'&c='+encodeURIComponent(b.c)).then(function(r){return r.json()})}
+function apiGet(b){return fetch(API+'?m=1&api=1&i='+encodeURIComponent(b.i)+'&k='+encodeURIComponent(b.k)+'&cid='+encodeURIComponent(b.c||'')).then(function(r){return r.json()})}
 function handle(r){
  if(!r||!r.ok){var c=r&&r.code;
   if(c==='pending')show('⏳','Tasdiq kutilmoqda','So’rovingiz TIMPRINT tomonidan hali tasdiqlanmagan. Tasdiqlangach shu yerda ma’lumotlaringiz chiqadi.','Qayta tekshirish');
