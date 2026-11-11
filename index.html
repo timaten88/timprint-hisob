@@ -11,9 +11,9 @@
 html,body{background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",Roboto,Arial,Helvetica,sans-serif;font-size:14px;-webkit-text-size-adjust:100%}
 body{min-height:100vh;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .tg{background:var(--grad);color:#fff;padding:12px 16px 12px;display:flex;align-items:center;gap:10px}
-.tg .lg{height:34px;width:auto;display:block}h
+.tg .lg{height:34px;width:auto;display:block}
 .tg .tt{flex:1;min-width:0}.tg small{display:block;font-size:12px;opacity:.85;margin-top:5px;font-weight:600}
-.tg button{background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:8px;padding:6px 10px;font-size:13px}
+.tg button{white-space:nowrap;background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:8px;padding:6px 10px;font-size:13px}
 .strip{height:3px;background:var(--ye)}
 .pad{padding:12px max(14px,env(safe-area-inset-left,0px)) 16px max(14px,env(safe-area-inset-right,0px))}
 .hello{font-size:19px;font-weight:800;margin-bottom:2px;overflow-wrap:anywhere}.meta{font-size:12px;color:var(--mut);margin-bottom:10px}
@@ -62,24 +62,101 @@ input,select,textarea{-webkit-user-select:text;user-select:text}
 #wm{position:fixed;left:0;top:0;right:0;bottom:0;z-index:50;pointer-events:none;background-repeat:repeat}
 .rv{display:flex;align-items:center;gap:10px;padding:8px max(14px,env(safe-area-inset-left,0px));background:#fff;border-bottom:1px solid var(--line)}
 .rv button{border:0;background:var(--navy);color:#fff;border-radius:18px;padding:8px 14px;font-size:13px;font-weight:700;white-space:nowrap}
+.lgs button{display:block;margin:12px auto 0;min-width:230px;font-size:16px;padding:13px 18px}
 .rv span{font-size:11.5px;color:var(--mut);line-height:1.25}
 </style></head><body>
-<div class="tg"><div class="tt"><svg class="lg" aria-label="Tim Print" xmlns="http://www.w3.org/2000/svg" viewBox="68.30 324.00 334.40 142.20"><path fill="#FFFFFF" d="M 82.476562 323.96875 L 139.351562 323.96875 C 147.203125 323.96875 153.566406 330.335938 153.566406 338.1875 L 153.566406 451.929688 C 153.566406 459.78125 147.203125 466.148438 139.351562 466.148438 C 131.496094 466.148438 125.132812 459.78125 125.132812 451.929688 L 125.132812 352.40625 L 82.476562 352.40625 C 74.625 352.40625 68.261719 346.039062 68.261719 338.1875 C 68.261719 330.335938 74.625 323.96875 82.476562 323.96875 Z M 82.476562 323.96875 "/><path fill="#FFFFFF" d="M 139.351562 323.96875 L 173.472656 323.96875 C 199.121094 323.96875 219.917969 344.761719 219.917969 370.414062 C 219.917969 396.066406 199.121094 416.859375 173.472656 416.859375 L 153.566406 416.859375 L 153.566406 388.421875 L 173.472656 388.421875 C 183.417969 388.421875 191.480469 380.359375 191.480469 370.414062 C 191.480469 360.46875 183.417969 352.40625 173.472656 352.40625 L 153.566406 352.40625 L 153.566406 338.1875 C 153.566406 330.335938 147.203125 323.96875 139.351562 323.96875 Z M 139.351562 323.96875 "/><path fill="#FFFFFF" d="M 269.878906 403.652344 L 269.878906 336.363281 L 284.863281 336.363281 L 284.863281 403.652344 Z M 259.105469 368.785156 L 259.105469 356.050781 L 295.636719 356.050781 L 295.636719 368.785156 Z M 300.621094 403.652344 L 300.621094 356.050781 L 315.605469 356.050781 L 315.605469 403.652344 Z M 308.164062 349.488281 C 305.8125 349.488281 303.871094 348.6875 302.335938 347.089844 C 300.800781 345.488281 300.035156 343.546875 300.035156 341.261719 C 300.035156 338.910156 300.800781 336.953125 302.335938 335.382812 C 303.871094 333.816406 305.8125 333.035156 308.164062 333.035156 C 310.511719 333.035156 312.441406 333.816406 313.941406 335.382812 C 315.441406 336.953125 316.195312 338.910156 316.195312 341.261719 C 316.195312 343.546875 315.441406 345.488281 313.941406 347.089844 C 312.441406 348.6875 310.511719 349.488281 308.164062 349.488281 Z M 324.605469 403.652344 L 324.605469 356.050781 L 339.589844 356.050781 L 339.589844 403.652344 Z M 355.066406 403.652344 L 355.066406 375.835938 C 355.066406 373.417969 354.332031 371.542969 352.863281 370.203125 C 351.394531 368.863281 349.582031 368.195312 347.425781 368.195312 C 345.925781 368.195312 344.585938 368.507812 343.410156 369.125 C 342.234375 369.746094 341.304688 370.613281 340.617188 371.722656 C 339.933594 372.832031 339.589844 374.203125 339.589844 375.835938 L 333.8125 373.289062 C 333.8125 369.5 334.628906 366.253906 336.261719 363.542969 C 337.894531 360.832031 340.113281 358.746094 342.921875 357.273438 C 345.730469 355.804688 348.894531 355.070312 352.421875 355.070312 C 355.75 355.070312 358.738281 355.824219 361.382812 357.324219 C 364.027344 358.824219 366.132812 360.914062 367.699219 363.59375 C 369.269531 366.269531 370.050781 369.46875 370.050781 373.191406 L 370.050781 403.652344 Z M 385.527344 403.652344 L 385.527344 375.835938 C 385.527344 373.417969 384.792969 371.542969 383.324219 370.203125 C 381.855469 368.863281 380.042969 368.195312 377.886719 368.195312 C 376.386719 368.195312 375.046875 368.507812 373.871094 369.125 C 372.695312 369.746094 371.765625 370.613281 371.078125 371.722656 C 370.394531 372.832031 370.050781 374.203125 370.050781 375.835938 L 361.433594 374.660156 C 361.5625 370.613281 362.527344 367.136719 364.320312 364.230469 C 366.117188 361.324219 368.5 359.070312 371.472656 357.472656 C 374.441406 355.871094 377.789062 355.070312 381.511719 355.070312 C 385.167969 355.070312 388.417969 355.839844 391.257812 357.375 C 394.097656 358.90625 396.351562 361.09375 398.015625 363.9375 C 399.679688 366.777344 400.511719 370.1875 400.511719 374.171875 L 400.511719 403.652344 Z M 385.527344 403.652344 "/><path fill="#FFFFFF" d="M 272.078125 454.632812 C 270.683594 454.632812 269.40625 454.359375 268.238281 453.820312 C 267.074219 453.28125 266.121094 452.535156 265.382812 451.582031 C 264.640625 450.628906 264.214844 449.542969 264.101562 448.320312 L 264.101562 439.574219 C 264.214844 438.351562 264.640625 437.242188 265.382812 436.246094 C 266.121094 435.253906 267.074219 434.46875 268.238281 433.902344 C 269.40625 433.332031 270.683594 433.046875 272.078125 433.046875 C 274.039062 433.046875 275.78125 433.519531 277.304688 434.457031 C 278.824219 435.394531 280.019531 436.675781 280.886719 438.296875 C 281.753906 439.914062 282.1875 441.765625 282.1875 443.839844 C 282.1875 445.914062 281.753906 447.765625 280.886719 449.386719 C 280.019531 451.003906 278.824219 452.285156 277.304688 453.222656 C 275.78125 454.160156 274.039062 454.632812 272.078125 454.632812 Z M 260.136719 462.949219 L 260.136719 433.476562 L 266.660156 433.476562 L 266.660156 438.808594 L 265.59375 443.839844 L 266.574219 448.871094 L 266.574219 462.949219 Z M 270.882812 448.746094 C 271.820312 448.746094 272.640625 448.53125 273.335938 448.105469 C 274.03125 447.679688 274.582031 447.097656 274.976562 446.355469 C 275.375 445.617188 275.574219 444.777344 275.574219 443.839844 C 275.574219 442.875 275.375 442.019531 274.976562 441.28125 C 274.582031 440.542969 274.03125 439.964844 273.335938 439.554688 C 272.640625 439.140625 271.835938 438.933594 270.925781 438.933594 C 270.015625 438.933594 269.214844 439.140625 268.515625 439.554688 C 267.820312 439.964844 267.273438 440.542969 266.875 441.28125 C 266.476562 442.019531 266.277344 442.875 266.277344 443.839844 C 266.277344 444.777344 266.46875 445.617188 266.851562 446.355469 C 267.238281 447.097656 267.785156 447.679688 268.496094 448.105469 C 269.207031 448.53125 270.003906 448.746094 270.882812 448.746094 Z M 297.648438 454.203125 L 297.648438 433.476562 L 304.175781 433.476562 L 304.175781 454.203125 Z M 304.175781 442.816406 L 301.445312 440.683594 C 301.988281 438.265625 302.898438 436.390625 304.175781 435.054688 C 305.457031 433.714844 307.234375 433.046875 309.507812 433.046875 C 310.503906 433.046875 311.378906 433.199219 312.132812 433.496094 C 312.882812 433.796875 313.546875 434.257812 314.113281 434.882812 L 310.234375 439.789062 C 309.949219 439.476562 309.59375 439.234375 309.167969 439.0625 C 308.742188 438.890625 308.257812 438.808594 307.714844 438.808594 C 306.636719 438.808594 305.773438 439.140625 305.136719 439.808594 C 304.496094 440.476562 304.175781 441.480469 304.175781 442.816406 Z M 328.722656 454.203125 L 328.722656 433.476562 L 335.25 433.476562 L 335.25 454.203125 Z M 332.007812 430.617188 C 330.984375 430.617188 330.140625 430.269531 329.472656 429.574219 C 328.800781 428.875 328.46875 428.03125 328.46875 427.035156 C 328.46875 426.011719 328.800781 425.15625 329.472656 424.476562 C 330.140625 423.792969 330.984375 423.453125 332.007812 423.453125 C 333.03125 423.453125 333.871094 423.792969 334.523438 424.476562 C 335.179688 425.15625 335.507812 426.011719 335.507812 427.035156 C 335.507812 428.03125 335.179688 428.875 334.523438 429.574219 C 333.871094 430.269531 333.03125 430.617188 332.007812 430.617188 Z M 365.683594 454.203125 L 365.683594 442.390625 C 365.683594 441.308594 365.351562 440.433594 364.683594 439.765625 C 364.015625 439.097656 363.167969 438.765625 362.144531 438.765625 C 361.433594 438.765625 360.808594 438.914062 360.269531 439.210938 C 359.726562 439.511719 359.300781 439.9375 358.988281 440.492188 C 358.675781 441.046875 358.519531 441.679688 358.519531 442.390625 L 356.003906 441.152344 C 356.003906 439.53125 356.359375 438.109375 357.070312 436.886719 C 357.78125 435.664062 358.769531 434.71875 360.035156 434.050781 C 361.300781 433.382812 362.726562 433.046875 364.320312 433.046875 C 365.855469 433.046875 367.214844 433.410156 368.394531 434.136719 C 369.574219 434.863281 370.503906 435.820312 371.1875 437.015625 C 371.871094 438.210938 372.210938 439.519531 372.210938 440.9375 L 372.210938 454.203125 Z M 351.992188 454.203125 L 351.992188 433.476562 L 358.519531 433.476562 L 358.519531 454.203125 Z M 391.46875 454.203125 L 391.46875 424.902344 L 397.996094 424.902344 L 397.996094 454.203125 Z M 386.777344 439.019531 L 386.777344 433.476562 L 402.6875 433.476562 L 402.6875 439.019531 Z M 386.777344 439.019531 "/></svg><small id="sub">Mening hisobim</small></div><button id="rf" type="button" hidden>⟳</button></div>
+<div class="tg"><div class="tt"><svg class="lg" aria-label="Tim Print" xmlns="http://www.w3.org/2000/svg" viewBox="68.30 324.00 334.40 142.20"><path fill="#FFFFFF" d="M 82.476562 323.96875 L 139.351562 323.96875 C 147.203125 323.96875 153.566406 330.335938 153.566406 338.1875 L 153.566406 451.929688 C 153.566406 459.78125 147.203125 466.148438 139.351562 466.148438 C 131.496094 466.148438 125.132812 459.78125 125.132812 451.929688 L 125.132812 352.40625 L 82.476562 352.40625 C 74.625 352.40625 68.261719 346.039062 68.261719 338.1875 C 68.261719 330.335938 74.625 323.96875 82.476562 323.96875 Z M 82.476562 323.96875 "/><path fill="#FFFFFF" d="M 139.351562 323.96875 L 173.472656 323.96875 C 199.121094 323.96875 219.917969 344.761719 219.917969 370.414062 C 219.917969 396.066406 199.121094 416.859375 173.472656 416.859375 L 153.566406 416.859375 L 153.566406 388.421875 L 173.472656 388.421875 C 183.417969 388.421875 191.480469 380.359375 191.480469 370.414062 C 191.480469 360.46875 183.417969 352.40625 173.472656 352.40625 L 153.566406 352.40625 L 153.566406 338.1875 C 153.566406 330.335938 147.203125 323.96875 139.351562 323.96875 Z M 139.351562 323.96875 "/><path fill="#FFFFFF" d="M 269.878906 403.652344 L 269.878906 336.363281 L 284.863281 336.363281 L 284.863281 403.652344 Z M 259.105469 368.785156 L 259.105469 356.050781 L 295.636719 356.050781 L 295.636719 368.785156 Z M 300.621094 403.652344 L 300.621094 356.050781 L 315.605469 356.050781 L 315.605469 403.652344 Z M 308.164062 349.488281 C 305.8125 349.488281 303.871094 348.6875 302.335938 347.089844 C 300.800781 345.488281 300.035156 343.546875 300.035156 341.261719 C 300.035156 338.910156 300.800781 336.953125 302.335938 335.382812 C 303.871094 333.816406 305.8125 333.035156 308.164062 333.035156 C 310.511719 333.035156 312.441406 333.816406 313.941406 335.382812 C 315.441406 336.953125 316.195312 338.910156 316.195312 341.261719 C 316.195312 343.546875 315.441406 345.488281 313.941406 347.089844 C 312.441406 348.6875 310.511719 349.488281 308.164062 349.488281 Z M 324.605469 403.652344 L 324.605469 356.050781 L 339.589844 356.050781 L 339.589844 403.652344 Z M 355.066406 403.652344 L 355.066406 375.835938 C 355.066406 373.417969 354.332031 371.542969 352.863281 370.203125 C 351.394531 368.863281 349.582031 368.195312 347.425781 368.195312 C 345.925781 368.195312 344.585938 368.507812 343.410156 369.125 C 342.234375 369.746094 341.304688 370.613281 340.617188 371.722656 C 339.933594 372.832031 339.589844 374.203125 339.589844 375.835938 L 333.8125 373.289062 C 333.8125 369.5 334.628906 366.253906 336.261719 363.542969 C 337.894531 360.832031 340.113281 358.746094 342.921875 357.273438 C 345.730469 355.804688 348.894531 355.070312 352.421875 355.070312 C 355.75 355.070312 358.738281 355.824219 361.382812 357.324219 C 364.027344 358.824219 366.132812 360.914062 367.699219 363.59375 C 369.269531 366.269531 370.050781 369.46875 370.050781 373.191406 L 370.050781 403.652344 Z M 385.527344 403.652344 L 385.527344 375.835938 C 385.527344 373.417969 384.792969 371.542969 383.324219 370.203125 C 381.855469 368.863281 380.042969 368.195312 377.886719 368.195312 C 376.386719 368.195312 375.046875 368.507812 373.871094 369.125 C 372.695312 369.746094 371.765625 370.613281 371.078125 371.722656 C 370.394531 372.832031 370.050781 374.203125 370.050781 375.835938 L 361.433594 374.660156 C 361.5625 370.613281 362.527344 367.136719 364.320312 364.230469 C 366.117188 361.324219 368.5 359.070312 371.472656 357.472656 C 374.441406 355.871094 377.789062 355.070312 381.511719 355.070312 C 385.167969 355.070312 388.417969 355.839844 391.257812 357.375 C 394.097656 358.90625 396.351562 361.09375 398.015625 363.9375 C 399.679688 366.777344 400.511719 370.1875 400.511719 374.171875 L 400.511719 403.652344 Z M 385.527344 403.652344 "/><path fill="#FFFFFF" d="M 272.078125 454.632812 C 270.683594 454.632812 269.40625 454.359375 268.238281 453.820312 C 267.074219 453.28125 266.121094 452.535156 265.382812 451.582031 C 264.640625 450.628906 264.214844 449.542969 264.101562 448.320312 L 264.101562 439.574219 C 264.214844 438.351562 264.640625 437.242188 265.382812 436.246094 C 266.121094 435.253906 267.074219 434.46875 268.238281 433.902344 C 269.40625 433.332031 270.683594 433.046875 272.078125 433.046875 C 274.039062 433.046875 275.78125 433.519531 277.304688 434.457031 C 278.824219 435.394531 280.019531 436.675781 280.886719 438.296875 C 281.753906 439.914062 282.1875 441.765625 282.1875 443.839844 C 282.1875 445.914062 281.753906 447.765625 280.886719 449.386719 C 280.019531 451.003906 278.824219 452.285156 277.304688 453.222656 C 275.78125 454.160156 274.039062 454.632812 272.078125 454.632812 Z M 260.136719 462.949219 L 260.136719 433.476562 L 266.660156 433.476562 L 266.660156 438.808594 L 265.59375 443.839844 L 266.574219 448.871094 L 266.574219 462.949219 Z M 270.882812 448.746094 C 271.820312 448.746094 272.640625 448.53125 273.335938 448.105469 C 274.03125 447.679688 274.582031 447.097656 274.976562 446.355469 C 275.375 445.617188 275.574219 444.777344 275.574219 443.839844 C 275.574219 442.875 275.375 442.019531 274.976562 441.28125 C 274.582031 440.542969 274.03125 439.964844 273.335938 439.554688 C 272.640625 439.140625 271.835938 438.933594 270.925781 438.933594 C 270.015625 438.933594 269.214844 439.140625 268.515625 439.554688 C 267.820312 439.964844 267.273438 440.542969 266.875 441.28125 C 266.476562 442.019531 266.277344 442.875 266.277344 443.839844 C 266.277344 444.777344 266.46875 445.617188 266.851562 446.355469 C 267.238281 447.097656 267.785156 447.679688 268.496094 448.105469 C 269.207031 448.53125 270.003906 448.746094 270.882812 448.746094 Z M 297.648438 454.203125 L 297.648438 433.476562 L 304.175781 433.476562 L 304.175781 454.203125 Z M 304.175781 442.816406 L 301.445312 440.683594 C 301.988281 438.265625 302.898438 436.390625 304.175781 435.054688 C 305.457031 433.714844 307.234375 433.046875 309.507812 433.046875 C 310.503906 433.046875 311.378906 433.199219 312.132812 433.496094 C 312.882812 433.796875 313.546875 434.257812 314.113281 434.882812 L 310.234375 439.789062 C 309.949219 439.476562 309.59375 439.234375 309.167969 439.0625 C 308.742188 438.890625 308.257812 438.808594 307.714844 438.808594 C 306.636719 438.808594 305.773438 439.140625 305.136719 439.808594 C 304.496094 440.476562 304.175781 441.480469 304.175781 442.816406 Z M 328.722656 454.203125 L 328.722656 433.476562 L 335.25 433.476562 L 335.25 454.203125 Z M 332.007812 430.617188 C 330.984375 430.617188 330.140625 430.269531 329.472656 429.574219 C 328.800781 428.875 328.46875 428.03125 328.46875 427.035156 C 328.46875 426.011719 328.800781 425.15625 329.472656 424.476562 C 330.140625 423.792969 330.984375 423.453125 332.007812 423.453125 C 333.03125 423.453125 333.871094 423.792969 334.523438 424.476562 C 335.179688 425.15625 335.507812 426.011719 335.507812 427.035156 C 335.507812 428.03125 335.179688 428.875 334.523438 429.574219 C 333.871094 430.269531 333.03125 430.617188 332.007812 430.617188 Z M 365.683594 454.203125 L 365.683594 442.390625 C 365.683594 441.308594 365.351562 440.433594 364.683594 439.765625 C 364.015625 439.097656 363.167969 438.765625 362.144531 438.765625 C 361.433594 438.765625 360.808594 438.914062 360.269531 439.210938 C 359.726562 439.511719 359.300781 439.9375 358.988281 440.492188 C 358.675781 441.046875 358.519531 441.679688 358.519531 442.390625 L 356.003906 441.152344 C 356.003906 439.53125 356.359375 438.109375 357.070312 436.886719 C 357.78125 435.664062 358.769531 434.71875 360.035156 434.050781 C 361.300781 433.382812 362.726562 433.046875 364.320312 433.046875 C 365.855469 433.046875 367.214844 433.410156 368.394531 434.136719 C 369.574219 434.863281 370.503906 435.820312 371.1875 437.015625 C 371.871094 438.210938 372.210938 439.519531 372.210938 440.9375 L 372.210938 454.203125 Z M 351.992188 454.203125 L 351.992188 433.476562 L 358.519531 433.476562 L 358.519531 454.203125 Z M 391.46875 454.203125 L 391.46875 424.902344 L 397.996094 424.902344 L 397.996094 454.203125 Z M 386.777344 439.019531 L 386.777344 433.476562 L 402.6875 433.476562 L 402.6875 439.019531 Z M 386.777344 439.019531 "/></svg><small id="sub">Mening hisobim</small></div><button id="lgb" type="button">🌐 Рус</button><button id="rf" type="button" hidden>⟳</button></div>
 <div class="strip"></div>
-<div id="wm" aria-hidden="true"></div><div id="rv" class="rv" hidden><button type="button" id="rvb">👁 Summalarni ko’rsat</button><span>Xavfsizlik uchun summalar yashirin turadi</span></div><div id="app"><div class="msg"><div class="e">⏳</div><h2>Yuklanmoqda...</h2><p>Ma'lumotlaringiz tayyorlanmoqda.</p></div></div>
+<div id="wm" aria-hidden="true"></div><div id="rv" class="rv" hidden><button type="button" id="rvb">👁 Summalarni ko’rsat</button><span id="rvn">Xavfsizlik uchun summalar yashirin turadi</span></div><div id="app"><div class="msg"><div class="e">⏳</div><h2>Yuklanmoqda...</h2><p>Ma'lumotlaringiz tayyorlanmoqda.</p></div></div>
 <div class="tab" id="tabs" hidden>
-<button type="button" data-t="home" class="on"><i>🏠</i>Bosh</button>
-<button type="button" data-t="orders"><i>📦</i>Buyurtmalar</button>
-<button type="button" data-t="pay"><i>💳</i>To'lovlar</button>
-<button type="button" data-t="rep"><i>📊</i>Hisobot</button>
+<button type="button" data-t="home" class="on"><i>🏠</i><span>Bosh</span></button>
+<button type="button" data-t="orders"><i>📦</i><span>Buyurtmalar</span></button>
+<button type="button" data-t="pay"><i>💳</i><span>To'lovlar</span></button>
+<button type="button" data-t="rep"><i>📊</i><span>Hisobot</span></button>
 </div>
 <script>
 (function(){
-var MO=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentyabr','Oktyabr','Noyabr','Dekabr'];
-var MS=['Yan','Fev','Mar','Apr','May','Iyn','Iyl','Avg','Sen','Okt','Noy','Dek'];
-var TN={D:'DTF',U:'UV DTF',P:'Press',X:'Boshqa'};
+var I18N={
+uz:{
+ title:'Tim Print — Mening hisobim',
+ mo:['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentyabr','Oktyabr','Noyabr','Dekabr'],
+ ms:['Yan','Fev','Mar','Apr','May','Iyn','Iyl','Avg','Sen','Okt','Noy','Dek'],
+ sub_home:'Mening hisobim',sub_orders:'Buyurtmalarim',sub_pay:'To’lovlarim',sub_rep:'Hisobot',
+ tab_home:'Bosh',tab_orders:'Buyurtmalar',tab_pay:'To’lovlar',tab_rep:'Hisobot',
+ ld_t:'Yuklanmoqda...',ld_p:'Ma’lumotlaringiz tayyorlanmoqda.',
+ rv_btn:'👁 Summalarni ko’rsat',rv_hide:' s · yashirish',rv_note:'Xavfsizlik uchun summalar yashirin turadi',
+ som:'so’m',unit_p:' dona',unit_m:' m',tn_x:'Boshqa',
+ st_rest:'qoldiq ',st_unpaid:'to’lanmagan',st_paid:'to’langan',
+ e_pending_t:'Tasdiq kutilmoqda',e_pending_p:'So’rovingiz TIMPRINT tomonidan hali tasdiqlanmagan. Tasdiqlangach shu yerda ma’lumotlaringiz chiqadi.',b_recheck:'Qayta tekshirish',
+ e_none_t:'Ulanmagansiz',e_none_p:'Avval TIMPRINT yuborgan shaxsiy havola orqali botga ulaning.',
+ e_auth_t:'Kirish tasdiqlanmadi',e_auth_p:'Sahifani Telegramdagi bot orqali qayta oching.',b_retry:'Qayta urinish',
+ e_err_t:'Xatolik',e_err_p:'Noma’lum xato. Birozdan keyin qayta urinib ko’ring.',
+ e_net_t:'Aloqa xatosi',e_net_p:'Ma’lumot olinmadi. Internetni tekshirib, qayta urinib ko’ring.',
+ hello:'Salom, ',cid:'Mijoz ID: ',meta_n:'{0} ta buyurtma',first:' · birinchisi ',
+ debt:'Qarzim',adv:'Avansim',prepaid:'oldindan to’langan',unpaid_rest:'to’lanmagan qoldiq',
+ pct:'Jami summaning {0}% i to’langan',total:'Jami summa',alltime:'barcha davr',old_debt:' · eski qarz ',
+ paid:'To’langan',n_pay:'{0} ta to’lov',how_many:'Nechta metr chiqarilgan',
+ dtf_m:'DTF (metr)',uv_m:'UV DTF (metr)',press_d:'Press (dona)',other:'Boshqa',
+ last_orders:'Oxirgi buyurtmalar',no_orders:'Hali buyurtma yo’q',
+ all:'Hammasi',all_per:'Barcha davr',pick_dates:'Sana tanlash ▾',from:'Dan',to:'Gacha',
+ qty:'Soni',metr:'Metr',sum:'Summa',unpaid:'To’lanmagan',
+ tot_debt:'Umumiy qarzingiz (alohida to’lovlar hisobga olingan): ',avans_sfx:' avans',
+ no_match:'Bu tanlovda buyurtma topilmadi',last300:'Oxirgi 300 ta ko’rsatildi. Davrni toraytiring.',
+ ord_foot:'Buyurtmani bossangiz: sana, material, metr, narx, izoh va to’lov holati chiqadi. Alohida to’lovlar umumiy qarzdan ayriladi.',
+ date:'Sana',price:'Narxi',discount:'Chegirma',no:'yo’q',note:'Izoh',close:'Yopish',
+ tot_paid:'Jami to’langan',adv2:'Avans',debt_rest:'Qarz qoldig’i',pay_hist:'To’lovlar tarixi',no_pay:'Hali to’lov yo’q',
+ pay_sep:'Alohida to’lov',pay_with:'Buyurtma bilan: ',
+ rep_t:'Davr hisoboti',q_m:'Bu oy',q_p:'O’tgan oy',q_3:'3 oy',q_y:'Bu yil',q_a:'Hammasi',
+ orders_n:'Buyurtmalar',cnt:'{0} ta',paid_done:'To’landi',
+ rep_note:'Tanlangan davrdagi buyurtmalar summasi va shu davrda qilingan to’lovlar.',
+ by_month:'Oylar bo’yicha metr',legend:'Ko’k — DTF, binafsha — UV DTF (metr)',
+ upd:'Yangilandi: ',adm:' · admin ko’rinishi',lg_btn:'🌐 Рус'
+},
+ru:{
+ title:'Tim Print — Мой счёт',
+ mo:['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+ ms:['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'],
+ sub_home:'Мой счёт',sub_orders:'Мои заказы',sub_pay:'Мои платежи',sub_rep:'Отчёт',
+ tab_home:'Главная',tab_orders:'Заказы',tab_pay:'Платежи',tab_rep:'Отчёт',
+ ld_t:'Загрузка...',ld_p:'Подготавливаем ваши данные.',
+ rv_btn:'👁 Показать суммы',rv_hide:' с · скрыть',rv_note:'Для безопасности суммы скрыты',
+ som:'сум',unit_p:' шт.',unit_m:' м',tn_x:'Другое',
+ st_rest:'остаток ',st_unpaid:'не оплачено',st_paid:'оплачено',
+ e_pending_t:'Ожидается подтверждение',e_pending_p:'Ваш запрос ещё не подтверждён в TIMPRINT. После подтверждения здесь появятся ваши данные.',b_recheck:'Проверить снова',
+ e_none_t:'Вы не подключены',e_none_p:'Сначала подключитесь к боту по личной ссылке, которую прислал TIMPRINT.',
+ e_auth_t:'Вход не подтверждён',e_auth_p:'Откройте страницу заново через бота в Telegram.',b_retry:'Повторить',
+ e_err_t:'Ошибка',e_err_p:'Неизвестная ошибка. Попробуйте чуть позже.',
+ e_net_t:'Ошибка связи',e_net_p:'Данные не получены. Проверьте интернет и повторите попытку.',
+ hello:'Здравствуйте, ',cid:'ID клиента: ',meta_n:'Заказов: {0}',first:' · первый ',
+ debt:'Мой долг',adv:'Мой аванс',prepaid:'оплачено заранее',unpaid_rest:'неоплаченный остаток',
+ pct:'Оплачено {0}% от общей суммы',total:'Общая сумма',alltime:'за всё время',old_debt:' · прежний долг ',
+ paid:'Оплачено',n_pay:'Платежей: {0}',how_many:'Сколько метров напечатано',
+ dtf_m:'DTF (метры)',uv_m:'UV DTF (метры)',press_d:'Press (шт.)',other:'Другое',
+ last_orders:'Последние заказы',no_orders:'Заказов пока нет',
+ all:'Все',all_per:'Весь период',pick_dates:'Выбрать даты ▾',from:'С',to:'По',
+ qty:'Кол-во',metr:'Метры',sum:'Сумма',unpaid:'Не оплачено',
+ tot_debt:'Ваш общий долг (с учётом отдельных платежей): ',avans_sfx:' аванс',
+ no_match:'По выбранным условиям заказов не найдено',last300:'Показаны последние 300. Сузьте период.',
+ ord_foot:'Нажмите на заказ — откроются дата, материал, метры, цена, примечание и статус оплаты. Отдельные платежи вычитаются из общего долга.',
+ date:'Дата',price:'Цена',discount:'Скидка',no:'нет',note:'Примечание',close:'Закрыть',
+ tot_paid:'Всего оплачено',adv2:'Аванс',debt_rest:'Остаток долга',pay_hist:'История платежей',no_pay:'Платежей пока нет',
+ pay_sep:'Отдельный платёж',pay_with:'С заказом: ',
+ rep_t:'Отчёт за период',q_m:'Этот месяц',q_p:'Прошлый месяц',q_3:'3 мес.',q_y:'Этот год',q_a:'Всё время',
+ orders_n:'Заказы',cnt:'{0}',paid_done:'Оплачено',
+ rep_note:'Сумма заказов за выбранный период и платежи, сделанные в этом периоде.',
+ by_month:'Метры по месяцам',legend:'Синий — DTF, фиолетовый — UV DTF (метры)',
+ upd:'Обновлено: ',adm:' · режим администратора',lg_btn:'🌐 O’zb'
+}
+};
+var LG='uz',PENDING=false,LASTSHOW=null;
+function t(k,a){var d=I18N[LG]||I18N.uz,v=d[k];if(v==null)v=I18N.uz[k];if(v==null)return k;if(a!=null&&typeof v==='string')v=v.replace('{0}',a);return v}
+function stGet(){try{return localStorage.getItem('tp_lang')}catch(e){return null}}
+function stSet(l){try{localStorage.setItem('tp_lang',l)}catch(e){}}
+function okLang(l){return l==='ru'||l==='uz'}
+var TN0={D:'DTF',U:'UV DTF',P:'Press'};
+function tn(c){return c==='X'?t('tn_x'):TN0[c]}
 var D=null,O=[],P=[],tab='home',F={type:'all',per:'all',from:'',to:''},R={from:'',to:''},auth={i:'',k:'',c:''},dbg={loc:0,hash:0,hi:0,kp:0,tw:0};
-var app=document.getElementById('app'),tabs=document.getElementById('tabs'),rv=document.getElementById('rv'),rvb=document.getElementById('rvb');
+var app=document.getElementById('app'),tabs=document.getElementById('tabs'),rv=document.getElementById('rv'),rvb=document.getElementById('rvb'),lgb=document.getElementById('lgb');
 var SHOW=false,RV_T=null,RV_N=0;
 function mf(n){return SHOW?fmt(n):'•••••'}
 function rvHide(){
@@ -91,7 +168,7 @@ function rvHide(){
 function rvShow(){
  if(!D||D.admin||RV_T)return;
  SHOW=true;RV_N=10;render();
- RV_T=setInterval(function(){RV_N--;if(RV_N<=0){rvHide()}else{rvb.textContent='👁 '+RV_N+' s · yashirish'}},1000);
+ RV_T=setInterval(function(){RV_N--;if(RV_N<=0){rvHide()}else{rvb.textContent='👁 '+RV_N+t('rv_hide')}},1000);
 }
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function fmt(n){n=Math.round(n||0);var s=String(Math.abs(n)),o='';while(s.length>3){o=','+s.slice(-3)+o;s=s.slice(0,-3)}return (n<0?'-':'')+s+o}
@@ -100,16 +177,24 @@ function fd(n){n=Math.round((n||0)*1000)/1000;return n===Math.floor(n)?fmt(n):fm
 function dm(y){return y.slice(8,10)+'.'+y.slice(5,7)}
 function dmy(y){return y.slice(8,10)+'.'+y.slice(5,7)+'.'+y.slice(0,4)}
 function ym(y){return y.slice(0,7)}
-function mname(k){return MO[Number(k.slice(5,7))-1]+' '+k.slice(0,4)}
+function mname(k){return t('mo')[Number(k.slice(5,7))-1]+' '+k.slice(0,4)}
 function today(){return D&&D.now?D.now:new Date().toISOString().slice(0,10)}
-function qtyTxt(o){return o.c==='P'?(fd(o.q)+' dona'):(fm(o.q)+' m')}
-function pill(c){return '<span class="pill p-'+c+'">'+TN[c]+'</span>'}
-function status(o){return o.db>0.5?(o.db<net(o)-0.5?'<small class="bad">qoldiq '+mf(o.db)+'</small>':'<small class="bad">to’lanmagan</small>'):'<small class="ok">to’langan</small>'}
+function qtyTxt(o){return o.c==='P'?(fd(o.q)+t('unit_p')):(fm(o.q)+t('unit_m'))}
+function pill(c){return '<span class="pill p-'+c+'">'+tn(c)+'</span>'}
+function status(o){return o.db>0.5?(o.db<net(o)-0.5?'<small class="bad">'+t('st_rest')+mf(o.db)+'</small>':'<small class="bad">'+t('st_unpaid')+'</small>'):'<small class="ok">'+t('st_paid')+'</small>'}
 function net(o){return (o.t||0)-(o.ds||0)}
 
-function show(emoji,title,text,btn){
- tabs.hidden=true;document.getElementById('rf').hidden=true;rv.hidden=true;
- app.innerHTML='<div class="msg"><div class="e">'+emoji+'</div><h2>'+esc(title)+'</h2><p>'+esc(text)+'</p>'+(btn?'<button type="button" id="again">'+esc(btn)+'</button>':'')+'</div>';
+function loadHtml(){return '<div class="msg"><div class="e">⏳</div><h2>'+t('ld_t')+'</h2><p>'+t('ld_p')+'</p></div>'}
+function chooser(){
+ tabs.hidden=true;document.getElementById('rf').hidden=true;rv.hidden=true;lgb.hidden=true;
+ app.innerHTML='<div class="msg"><div class="e">🌐</div><h2>Tilni tanlang / Выберите язык</h2><div class="lgs"><button type="button" data-l="uz">🇺🇿 O’zbekcha</button><button type="button" data-l="ru">🇷🇺 Русский</button></div></div>';
+ var b=app.querySelectorAll('[data-l]'),i;for(i=0;i<b.length;i++)b[i].onclick=function(){setLang(this.getAttribute('data-l'),true)};
+}
+function show(emoji,tk,pk,bk){
+ LASTSHOW=[emoji,tk,pk,bk];
+ if(PENDING){chooser();return}
+ tabs.hidden=true;document.getElementById('rf').hidden=true;rv.hidden=true;lgb.hidden=false;
+ app.innerHTML='<div class="msg"><div class="e">'+emoji+'</div><h2>'+esc(t(tk))+'</h2><p>'+esc(t(pk))+'</p>'+(bk?'<button type="button" id="again">'+esc(t(bk))+'</button>':'')+'</div>';
  var b=document.getElementById('again');if(b)b.onclick=function(){load(auth.c)};
 }
 function prep(d){
@@ -122,11 +207,12 @@ function prep(d){
  var asc=O.slice().reverse();
  asc.forEach(function(o){var rem=Math.max(0,(o.t||0)-(o.ds||0)-(o.pd||0));var use=Math.min(rem,sep);sep-=use;o.al=use;o.db=rem-use});
  P=[];
- d.p.forEach(function(r){var l=String(r[2]||'');if(l.indexOf('Tolovlar')>-1||l==='')l='Alohida to’lov';P.push({d:r[0],a:r[1],l:l})});
- O.forEach(function(o){if(o.pd>0)P.push({d:o.d,a:o.pd,l:'Buyurtma bilan: '+TN[o.c]})});
+ d.p.forEach(function(r){var l=String(r[2]||'');P.push({d:r[0],a:r[1],l:(l.indexOf('Tolovlar')>-1||l==='')?null:l})});
+ O.forEach(function(o){if(o.pd>0)P.push({d:o.d,a:o.pd,l:null,wo:o.c})});
  P.sort(function(a,b){return a.d<b.d?1:(a.d>b.d?-1:0)});
- var t=today();R.from=t.slice(0,8)+'01';R.to=t;
+ var tt=today();R.from=tt.slice(0,8)+'01';R.to=tt;
 }
+function plabel(p){return p.wo?(t('pay_with')+tn(p.wo)):(p.l==null?t('pay_sep'):p.l)}
 function inPer(o){
  if(F.type!=='all'&&o.c!==F.type)return false;
  if(F.per==='all')return true;
@@ -146,12 +232,13 @@ function bindRows(){
  for(var i=0;i<rs.length;i++){rs[i].onclick=function(){sheet(O[Number(this.getAttribute('data-i'))])}}
 }
 function sheet(o){
- var h='<div class="shade" id="sh"><div class="sheet"><h3>'+pill(o.c)+esc(o.m||TN[o.c])+'</h3>'
- +kv('Sana',dmy(o.d))+kv(o.c==='P'?'Soni':'Metr',qtyTxt(o))+kv('Narxi',mf(o.pr)+' so’m')+kv('Summa',mf(o.t)+' so’m');
- if(o.ds>0)h+=kv('Chegirma','-'+mf(o.ds)+' so’m');
- h+=kv('To’langan',mf(net(o)-o.db)+' so’m')+kv('To’lanmagan',o.db>0.5?'<b class="bad">'+mf(o.db)+' so’m</b>':'<b class="ok">yo’q</b>');
- if(o.n)h+=kv('Izoh',esc(o.n));
- h+='<button type="button" id="shc">Yopish</button></div></div>';
+ var som=' '+t('som');
+ var h='<div class="shade" id="sh"><div class="sheet"><h3>'+pill(o.c)+esc(o.m||tn(o.c))+'</h3>'
+ +kv(t('date'),dmy(o.d))+kv(o.c==='P'?t('qty'):t('metr'),qtyTxt(o))+kv(t('price'),mf(o.pr)+som)+kv(t('sum'),mf(o.t)+som);
+ if(o.ds>0)h+=kv(t('discount'),'-'+mf(o.ds)+som);
+ h+=kv(t('paid'),mf(net(o)-o.db)+som)+kv(t('unpaid'),o.db>0.5?'<b class="bad">'+mf(o.db)+som+'</b>':'<b class="ok">'+t('no')+'</b>');
+ if(o.n)h+=kv(t('note'),esc(o.n));
+ h+='<button type="button" id="shc">'+t('close')+'</button></div></div>';
  var w=document.createElement('div');w.innerHTML=h;document.body.appendChild(w);
  var close=function(){document.body.removeChild(w)};
  w.querySelector('#shc').onclick=close;w.querySelector('#sh').onclick=function(e){if(e.target===this)close()};
@@ -163,80 +250,87 @@ function home(){
  O.forEach(function(o){tot+=net(o)});
  P.forEach(function(p){paidAll+=p.a});
  var base=tot+D.eski,pc=base>0?Math.max(0,Math.min(100,Math.round(paidAll/base*100))):0;
- var a=agg(O),h='<div class="hello">Salom, '+esc(D.name)+'</div><div class="meta">Mijoz ID: '+esc(D.id)+' · '+O.length+' ta buyurtma'+(O.length?' · birinchisi '+dmy(O[O.length-1].d):'')+'</div>';
- h+='<div class="tiles"><div class="t mg"><small>'+(qarz<-0.5?'Avansim':'Qarzim')+'</small><b>'+mf(Math.abs(qarz))+'</b><span>'+(qarz<-0.5?'oldindan to’langan':'to’lanmagan qoldiq')+'</span>';
- if(SHOW&&(qarz>0.5||base>0))h+='<div class="bar"><i style="width:'+pc+'%"></i></div><span style="display:block;margin-top:4px">Jami summaning '+pc+'% i to’langan</span>';
- h+='</div><div class="t cy"><small>Jami summa</small><b>'+mf(tot)+'</b><span>barcha davr'+(D.eski?' · eski qarz '+mf(D.eski):'')+'</span></div><div class="t gr"><small>To’langan</small><b>'+mf(paidAll)+'</b><span>'+P.length+' ta to’lov</span></div></div>';
- h+='<div class="h">Nechta metr chiqarilgan</div><div class="tiles"><div class="t cy"><small>DTF (metr)</small><b>'+fm(a.D)+'</b></div><div class="t pu"><small>UV DTF (metr)</small><b>'+fm(a.U)+'</b></div>';
- if(a.P>0)h+='<div class="t or"><small>Press (dona)</small><b>'+fd(a.P)+'</b></div>';
- if(a.X>0)h+='<div class="t nv"><small>Boshqa</small><b>'+fm(a.X)+'</b></div>';
- h+='</div><div class="h">Oxirgi buyurtmalar</div>';
- if(!O.length)h+='<div class="card"><div class="empty">Hali buyurtma yo’q</div></div>';
+ var a=agg(O),h='<div class="hello">'+t('hello')+esc(D.name)+'</div><div class="meta">'+t('cid')+esc(D.id)+' · '+t('meta_n',O.length)+(O.length?t('first')+dmy(O[O.length-1].d):'')+'</div>';
+ h+='<div class="tiles"><div class="t mg"><small>'+(qarz<-0.5?t('adv'):t('debt'))+'</small><b>'+mf(Math.abs(qarz))+'</b><span>'+(qarz<-0.5?t('prepaid'):t('unpaid_rest'))+'</span>';
+ if(SHOW&&(qarz>0.5||base>0))h+='<div class="bar"><i style="width:'+pc+'%"></i></div><span style="display:block;margin-top:4px">'+t('pct',pc)+'</span>';
+ h+='</div><div class="t cy"><small>'+t('total')+'</small><b>'+mf(tot)+'</b><span>'+t('alltime')+(D.eski?t('old_debt')+mf(D.eski):'')+'</span></div><div class="t gr"><small>'+t('paid')+'</small><b>'+mf(paidAll)+'</b><span>'+t('n_pay',P.length)+'</span></div></div>';
+ h+='<div class="h">'+t('how_many')+'</div><div class="tiles"><div class="t cy"><small>'+t('dtf_m')+'</small><b>'+fm(a.D)+'</b></div><div class="t pu"><small>'+t('uv_m')+'</small><b>'+fm(a.U)+'</b></div>';
+ if(a.P>0)h+='<div class="t or"><small>'+t('press_d')+'</small><b>'+fd(a.P)+'</b></div>';
+ if(a.X>0)h+='<div class="t nv"><small>'+t('other')+'</small><b>'+fm(a.X)+'</b></div>';
+ h+='</div><div class="h">'+t('last_orders')+'</div>';
+ if(!O.length)h+='<div class="card"><div class="empty">'+t('no_orders')+'</div></div>';
  else{h+='<div class="card">';for(i=0;i<Math.min(5,O.length);i++)h+=row(O[i]);h+='</div>'}
  return h;
 }
 function orders(){
- var list=O.filter(inPer),a=agg(list),ms=monthsList().slice(0,3),h='<div class="chips">',k;
- ['all','D','U','P'].forEach(function(t){h+='<button type="button" class="chip'+(F.type===t?' on':'')+'" data-ft="'+t+'">'+(t==='all'?'Hammasi':TN[t])+'</button>'});
- h+='</div><div class="chips" style="margin-top:2px"><button type="button" class="chip'+(F.per==='all'?' on':'')+'" data-fp="all">Barcha davr</button>';
+ var list=O.filter(inPer),a=agg(list),ms=monthsList().slice(0,3),h='<div class="chips">',k,MS=t('ms');
+ ['all','D','U','P'].forEach(function(x){h+='<button type="button" class="chip'+(F.type===x?' on':'')+'" data-ft="'+x+'">'+(x==='all'?t('all'):tn(x))+'</button>'});
+ h+='</div><div class="chips" style="margin-top:2px"><button type="button" class="chip'+(F.per==='all'?' on':'')+'" data-fp="all">'+t('all_per')+'</button>';
  ms.forEach(function(m){h+='<button type="button" class="chip'+(F.per===m?' on':'')+'" data-fp="'+m+'">'+MS[Number(m.slice(5,7))-1]+' '+m.slice(2,4)+'</button>'});
- h+='<button type="button" class="chip'+(F.per==='range'?' on':'')+'" data-fp="range">Sana tanlash ▾</button></div>';
- if(F.per==='range')h+='<div class="rng"><label>Dan<input type="date" id="ff" value="'+F.from+'"></label><label>Gacha<input type="date" id="ft" value="'+F.to+'"></label></div>';
- var mt=F.type==='P'?fd(a.P)+' dona':fm(a.D+a.U+a.X)+' m';
- h+='<div class="sum"><div><small>'+(F.type==='P'?'Soni':'Metr')+'</small><b>'+mt+'</b></div><div><small>Summa</small><b>'+mf(a.sum)+'</b></div><div><small>To’lanmagan</small><b class="'+(a.db>0.5?'bad':'ok')+'">'+mf(a.db)+'</b></div></div><div class="tl" style="padding-top:8px">Umumiy qarzingiz (alohida to’lovlar hisobga olingan): <b class="'+(D.qarz>0.5?'bad':'ok')+'">'+mf(Math.abs(D.qarz))+(D.qarz<-0.5?' avans':'')+'</b></div>';
- if(!list.length)return h+'<div class="card" style="margin-top:10px"><div class="empty">Bu tanlovda buyurtma topilmadi</div></div>';
+ h+='<button type="button" class="chip'+(F.per==='range'?' on':'')+'" data-fp="range">'+t('pick_dates')+'</button></div>';
+ if(F.per==='range')h+='<div class="rng"><label>'+t('from')+'<input type="date" id="ff" value="'+F.from+'"></label><label>'+t('to')+'<input type="date" id="ft" value="'+F.to+'"></label></div>';
+ var mt=F.type==='P'?fd(a.P)+t('unit_p'):fm(a.D+a.U+a.X)+t('unit_m');
+ h+='<div class="sum"><div><small>'+(F.type==='P'?t('qty'):t('metr'))+'</small><b>'+mt+'</b></div><div><small>'+t('sum')+'</small><b>'+mf(a.sum)+'</b></div><div><small>'+t('unpaid')+'</small><b class="'+(a.db>0.5?'bad':'ok')+'">'+mf(a.db)+'</b></div></div><div class="tl" style="padding-top:8px">'+t('tot_debt')+'<b class="'+(D.qarz>0.5?'bad':'ok')+'">'+mf(Math.abs(D.qarz))+(D.qarz<-0.5?t('avans_sfx'):'')+'</b></div>';
+ if(!list.length)return h+'<div class="card" style="margin-top:10px"><div class="empty">'+t('no_match')+'</div></div>';
  h+='<div class="card" style="margin-top:10px">';var cur='';
  list.slice(0,300).forEach(function(o){k=ym(o.d);if(k!==cur){cur=k;h+='<div class="mh">'+mname(k)+'</div>'}h+=row(o)});
- h+='</div>';if(list.length>300)h+='<div class="foot">Oxirgi 300 ta ko’rsatildi. Davrni toraytiring.</div>';
- return h+'<div class="foot">Buyurtmani bossangiz: sana, material, metr, narx, izoh va to’lov holati chiqadi. Alohida to’lovlar umumiy qarzdan ayriladi.</div>';
+ h+='</div>';if(list.length>300)h+='<div class="foot">'+t('last300')+'</div>';
+ return h+'<div class="foot">'+t('ord_foot')+'</div>';
 }
 function pay(){
  var paidAll=0;P.forEach(function(p){paidAll+=p.a});
- var h='<div class="sum"><div><small>Jami to’langan</small><b class="ok">'+mf(paidAll)+'</b></div><div><small>'+(D.qarz<-0.5?'Avans':'Qarz qoldig’i')+'</small><b class="'+(D.qarz>0.5?'bad':'ok')+'">'+mf(Math.abs(D.qarz))+'</b></div></div><div class="h">To’lovlar tarixi</div>';
- if(!P.length)return h+'<div class="card"><div class="empty">Hali to’lov yo’q</div></div>';
+ var h='<div class="sum"><div><small>'+t('tot_paid')+'</small><b class="ok">'+mf(paidAll)+'</b></div><div><small>'+(D.qarz<-0.5?t('adv2'):t('debt_rest'))+'</small><b class="'+(D.qarz>0.5?'bad':'ok')+'">'+mf(Math.abs(D.qarz))+'</b></div></div><div class="h">'+t('pay_hist')+'</div>';
+ if(!P.length)return h+'<div class="card"><div class="empty">'+t('no_pay')+'</div></div>';
  h+='<div class="card">';var cur='';
  P.slice(0,300).forEach(function(p){var k=ym(p.d);if(k!==cur){cur=k;h+='<div class="mh">'+mname(k)+'</div>'}
-  h+='<div class="li" style="cursor:default"><div class="d">'+dm(p.d)+'<br>'+p.d.slice(0,4)+'</div><div class="m"><b>'+mf(p.a)+'</b><span>'+esc(p.l)+'</span></div><div class="s ok">✓</div></div>'});
+  h+='<div class="li" style="cursor:default"><div class="d">'+dm(p.d)+'<br>'+p.d.slice(0,4)+'</div><div class="m"><b>'+mf(p.a)+'</b><span>'+esc(plabel(p))+'</span></div><div class="s ok">✓</div></div>'});
  return h+'</div>';
 }
 function setRange(f,t){R.from=f;R.to=t}
 function rep(){
- var t=today(),h='<div class="h" style="margin-top:2px">Davr hisoboti</div><div class="chips" style="margin-top:0">';
- [['m','Bu oy'],['p','O’tgan oy'],['3','3 oy'],['y','Bu yil'],['a','Hammasi']].forEach(function(x){h+='<button type="button" class="chip" data-q="'+x[0]+'">'+x[1]+'</button>'});
- h+='</div><div class="rng"><label>Dan<input type="date" id="rf1" value="'+R.from+'"></label><label>Gacha<input type="date" id="rt1" value="'+R.to+'"></label></div>';
+ var tt=today(),h='<div class="h" style="margin-top:2px">'+t('rep_t')+'</div><div class="chips" style="margin-top:0">',MS=t('ms');
+ [['m','q_m'],['p','q_p'],['3','q_3'],['y','q_y'],['a','q_a']].forEach(function(x){h+='<button type="button" class="chip" data-q="'+x[0]+'">'+t(x[1])+'</button>'});
+ h+='</div><div class="rng"><label>'+t('from')+'<input type="date" id="rf1" value="'+R.from+'"></label><label>'+t('to')+'<input type="date" id="rt1" value="'+R.to+'"></label></div>';
  var list=O.filter(function(o){return (!R.from||o.d>=R.from)&&(!R.to||o.d<=R.to)}),a=agg(list),tp=0,np=0;
  P.forEach(function(p){if((!R.from||p.d>=R.from)&&(!R.to||p.d<=R.to)){tp+=p.a;np++}});
- h+='<div class="tiles" style="margin-top:10px"><div class="t cy"><small>DTF (metr)</small><b>'+fm(a.D)+'</b></div><div class="t pu"><small>UV DTF (metr)</small><b>'+fm(a.U)+'</b></div>';
- if(a.P>0)h+='<div class="t or"><small>Press (dona)</small><b>'+fd(a.P)+'</b></div>';
- h+='<div class="t nv"><small>Buyurtmalar</small><b>'+a.n+' ta</b></div><div class="t cy" style="background:var(--navy)"><small>Summa</small><b>'+mf(a.sum)+'</b></div><div class="t gr"><small>To’landi</small><b>'+mf(tp)+'</b><span>'+np+' ta to’lov</span></div></div>';
- h+='<div class="tl">Tanlangan davrdagi buyurtmalar summasi va shu davrda qilingan to’lovlar.</div>';
+ h+='<div class="tiles" style="margin-top:10px"><div class="t cy"><small>'+t('dtf_m')+'</small><b>'+fm(a.D)+'</b></div><div class="t pu"><small>'+t('uv_m')+'</small><b>'+fm(a.U)+'</b></div>';
+ if(a.P>0)h+='<div class="t or"><small>'+t('press_d')+'</small><b>'+fd(a.P)+'</b></div>';
+ h+='<div class="t nv"><small>'+t('orders_n')+'</small><b>'+t('cnt',a.n)+'</b></div><div class="t cy" style="background:var(--navy)"><small>'+t('sum')+'</small><b>'+mf(a.sum)+'</b></div><div class="t gr"><small>'+t('paid_done')+'</small><b>'+mf(tp)+'</b><span>'+t('n_pay',np)+'</span></div></div>';
+ h+='<div class="tl">'+t('rep_note')+'</div>';
  var mk={},ks;O.forEach(function(o){var k=ym(o.d);mk[k]=mk[k]||{D:0,U:0};if(o.c==='D'||o.c==='U')mk[k][o.c]+=o.q});
  ks=Object.keys(mk).sort().slice(-6);
  if(ks.length){
   var mx=0;ks.forEach(function(k){mx=Math.max(mx,mk[k].D+mk[k].U)});mx=mx||1;
-  h+='<div class="h">Oylar bo’yicha metr</div><div class="mon">';
+  h+='<div class="h">'+t('by_month')+'</div><div class="mon">';
   ks.forEach(function(k){var d=mk[k].D,u=mk[k].U,hd=Math.round(d/mx*80),hu=Math.round(u/mx*80);if(u>0&&hu<3)hu=3;
    h+='<div><span class="v">'+fm(d+u)+'</span><div class="b">'+(u>0?'<i style="height:'+hu+'px;background:var(--pu)"></i>':'')+'<i style="height:'+hd+'px;background:var(--cy)"></i></div>'+MS[Number(k.slice(5,7))-1]+'</div>'});
-  h+='</div><div class="tl">Ko’k — DTF, binafsha — UV DTF (metr)</div>';
+  h+='</div><div class="tl">'+t('legend')+'</div>';
  }
  return h;
 }
 function wmark(){
  var el=document.getElementById('wm');if(!el||!D)return;if(D.admin){el.style.backgroundImage='none';return}
  var n=new Date(),p=function(x){return (x<10?'0':'')+x};
- var t=String(D.name||'').slice(0,24)+' · '+String(D.id||'')+' · '+p(n.getDate())+'.'+p(n.getMonth()+1)+' '+p(n.getHours())+':'+p(n.getMinutes());
- var x=t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+ var tx=String(D.name||'').slice(0,24)+' · '+String(D.id||'')+' · '+p(n.getDate())+'.'+p(n.getMonth()+1)+' '+p(n.getHours())+':'+p(n.getMinutes());
+ var x=tx.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
  var svg='<svg xmlns="http://www.w3.org/2000/svg" width="400" height="190"><text x="200" y="95" text-anchor="middle" transform="rotate(-24 200 95)" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#3A10D8" fill-opacity="0.10">'+x+'</text></svg>';
  el.style.backgroundImage='url("data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg)+'")';
 }
+function statics(){
+ document.documentElement.lang=LG;document.title=t('title');
+ document.getElementById('sub').textContent=t('sub_'+tab);
+ var tb=tabs.querySelectorAll('button'),i;for(i=0;i<tb.length;i++){var s=tb[i].querySelector('span');if(s)s.textContent=t('tab_'+tb[i].getAttribute('data-t'))}
+ document.getElementById('rvn').textContent=t('rv_note');
+ lgb.textContent=t('lg_btn');
+}
 function render(){
  if(!D)return;
- wmark();
- document.getElementById('sub').textContent={home:'Mening hisobim',orders:'Buyurtmalarim',pay:'To’lovlarim',rep:'Hisobot'}[tab];
+ if(PENDING){chooser();return}
+ wmark();statics();lgb.hidden=false;
  var h='';
  if(D.cust&&D.cust.length>1){h+='<select class="sel" id="cs">';D.cust.forEach(function(c){h+='<option value="'+esc(c.id)+'"'+(c.id===D.id?' selected':'')+'>'+esc(c.name)+' ('+esc(c.id)+')</option>'});h+='</select>'}
  h+=tab==='home'?home():tab==='orders'?orders():tab==='pay'?pay():rep();
- h+='<div class="foot">Yangilandi: '+esc(D.at||'')+(D.admin?' · admin ko’rinishi':'')+'</div>';
+ h+='<div class="foot">'+t('upd')+esc(D.at||'')+(D.admin?t('adm'):'')+'</div>';
  app.innerHTML='<div class="pad">'+h+'</div>';
  var i,b;
  b=app.querySelectorAll('[data-ft]');for(i=0;i<b.length;i++)b[i].onclick=function(){F.type=this.getAttribute('data-ft');render()};
@@ -249,15 +343,15 @@ function render(){
  e=document.getElementById('cs');if(e)e.onchange=function(){load(this.value)};
  bindRows();
  tabs.hidden=false;document.getElementById('rf').hidden=false;
- rv.hidden=!!D.admin;if(!D.admin){rvb.textContent=SHOW?('👁 '+RV_N+' s · yashirish'):'👁 Summalarni ko’rsat';rvb.onclick=SHOW?rvHide:rvShow}
+ rv.hidden=!!D.admin;if(!D.admin){rvb.textContent=SHOW?('👁 '+RV_N+t('rv_hide')):t('rv_btn');rvb.onclick=SHOW?rvHide:rvShow}
  var tb=tabs.querySelectorAll('button');for(i=0;i<tb.length;i++)tb[i].className=tb[i].getAttribute('data-t')===tab?'on':'';
 }
 function quick(q){
- var t=today(),y=Number(t.slice(0,4)),m=Number(t.slice(5,7)),p2=function(n){return (n<10?'0':'')+n};
- if(q==='m')setRange(t.slice(0,8)+'01',t);
+ var td=today(),y=Number(td.slice(0,4)),m=Number(td.slice(5,7)),p2=function(n){return (n<10?'0':'')+n};
+ if(q==='m')setRange(td.slice(0,8)+'01',td);
  else if(q==='p'){var pm=m===1?12:m-1,py=m===1?y-1:y,ld=new Date(py,pm,0).getDate();setRange(py+'-'+p2(pm)+'-01',py+'-'+p2(pm)+'-'+p2(ld))}
- else if(q==='3'){var sm=m-2,sy=y;if(sm<1){sm+=12;sy--}setRange(sy+'-'+p2(sm)+'-01',t)}
- else if(q==='y')setRange(y+'-01-01',t);
+ else if(q==='3'){var sm=m-2,sy=y;if(sm<1){sm+=12;sy--}setRange(sy+'-'+p2(sm)+'-01',td)}
+ else if(q==='y')setRange(y+'-01-01',td);
  else setRange('','');
  render();
 }
@@ -269,31 +363,50 @@ var API='https://script.google.com/macros/s/AKfycbxrgvgBAe3sC-VPqLGj4a-qSWU872Ao
 function withTimeout(p,ms){return new Promise(function(res,rej){var t=setTimeout(function(){rej(new Error('timeout'))},ms);p.then(function(v){clearTimeout(t);res(v)},function(e){clearTimeout(t);rej(e)})})}
 function apiPost(b){return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)}).then(function(r){return r.json()})}
 function apiGet(b){return fetch(API+'?m=1&api=1&i='+encodeURIComponent(b.i)+'&k='+encodeURIComponent(b.k)+'&cid='+encodeURIComponent(b.c||'')).then(function(r){return r.json()})}
+function saveLang(){if(!auth.i&&!auth.k)return;apiPost({a:'mj',i:auth.i,k:auth.k,c:auth.c,l:LG}).catch(function(){})}
+function setLang(l,save){
+ if(!okLang(l))return;
+ var was=PENDING;LG=l;PENDING=false;stSet(l);
+ statics();
+ if(save)saveLang();
+ var sh=document.querySelectorAll('.shade'),i;for(i=0;i<sh.length;i++){var w=sh[i].parentNode;if(w&&w.parentNode)w.parentNode.removeChild(w)}
+ if(D)render();
+ else if(LASTSHOW)show(LASTSHOW[0],LASTSHOW[1],LASTSHOW[2],LASTSHOW[3]);
+ else{lgb.hidden=false;app.innerHTML=loadHtml()}
+}
 function handle(r){
  if(!r||!r.ok){var c=r&&r.code;
-  if(c==='pending')show('⏳','Tasdiq kutilmoqda','So’rovingiz TIMPRINT tomonidan hali tasdiqlanmagan. Tasdiqlangach shu yerda ma’lumotlaringiz chiqadi.','Qayta tekshirish');
-  else if(c==='none')show('🔒','Ulanmagansiz','Avval TIMPRINT yuborgan shaxsiy havola orqali botga ulaning.');
-  else if(c==='auth'){show('🔒','Kirish tasdiqlanmadi','Sahifani Telegramdagi bot orqali qayta oching.','Qayta urinish');
-   var dd=document.createElement('p');dd.style.cssText='margin-top:18px;font-size:10px;color:#9aa1ab';dd.textContent='kod: i='+auth.i.length+' k='+auth.k.length+' hash='+dbg.hash+' tg='+dbg.tw+' srv='+(r.why||'-');app.firstChild.appendChild(dd)}
-  else show('⚠️','Xatolik',(r&&r.msg)||'Noma’lum xato. Birozdan keyin qayta urinib ko’ring.','Qayta urinish');
+  if(c==='pending')show('⏳','e_pending_t','e_pending_p','b_recheck');
+  else if(c==='none')show('🔒','e_none_t','e_none_p');
+  else if(c==='auth'){show('🔒','e_auth_t','e_auth_p','b_retry');
+   var dd=document.createElement('p');dd.style.cssText='margin-top:18px;font-size:10px;color:#9aa1ab';dd.textContent='kod: i='+auth.i.length+' k='+auth.k.length+' hash='+dbg.hash+' tg='+dbg.tw+' srv='+(r.why||'-');if(app.firstChild)app.firstChild.appendChild(dd)}
+  else show('⚠️','e_err_t','e_err_p','b_retry');
   return}
- prep(r.d);render();
+ prep(r.d);
+ if(okLang(r.d.lang)){ if(r.d.lang!==LG||PENDING){setLang(r.d.lang,false);return} }
+ else if(!PENDING)saveLang();
+ render();
 }
 function load(cid){
- auth.c=cid||'';
- app.innerHTML='<div class="msg"><div class="e">⏳</div><h2>Yuklanmoqda...</h2><p>Ma’lumotlaringiz tayyorlanmoqda.</p></div>';tabs.hidden=true;
+ auth.c=cid||'';LASTSHOW=null;
+ if(PENDING)chooser();else{app.innerHTML=loadHtml();tabs.hidden=true;lgb.hidden=false}
  var b={a:'mj',i:auth.i,k:auth.k,c:auth.c};
- withTimeout(apiPost(b).catch(function(){return apiGet(b)}),60000).then(handle).catch(function(){show('⚠️','Aloqa xatosi','Ma’lumot olinmadi. Internetni tekshirib, qayta urinib ko’ring.','Qayta urinish')});
+ withTimeout(apiPost(b).catch(function(){return apiGet(b)}),60000).then(handle).catch(function(){show('⚠️','e_net_t','e_net_p','b_retry')});
 }
 function start(){
  var tw=window.Telegram&&Telegram.WebApp;
  try{if(tw){dbg.tw=1;tw.ready();tw.expand();try{tw.setHeaderColor('#3A10D8');tw.setBackgroundColor('#F4F1FD')}catch(e){}if(tw.initData){auth.i=tw.initData;dbg.tw=2}}}catch(e){}
  try{var h=parseHash(location.hash);dbg.hash=String(location.hash||'').length;if(!auth.i&&h.tgWebAppData){auth.i=h.tgWebAppData;dbg.hi=1}}catch(e){}
- try{var q=parseHash(location.search.replace('?','#'));if(q.k)auth.k=q.k}catch(e){}
+ var ql='';
+ try{var q=parseHash(location.search.replace('?','#'));if(q.k)auth.k=q.k;ql=q.l||''}catch(e){}
+ var l=okLang(ql)?ql:stGet();
+ if(okLang(l)){LG=l;stSet(l)}else PENDING=true;
+ statics();
  load('');
 }
 tabs.onclick=function(e){var b=e.target;while(b&&b!==tabs&&!b.getAttribute('data-t'))b=b.parentNode;if(b&&b.getAttribute&&b.getAttribute('data-t')){tab=b.getAttribute('data-t');render();window.scrollTo(0,0)}};
 document.getElementById('rf').onclick=function(){load(D?D.id:'')};
+lgb.onclick=function(){setLang(LG==='uz'?'ru':'uz',true)};
 document.addEventListener('visibilitychange',function(){if(document.hidden&&RV_T)rvHide()});
 document.addEventListener('contextmenu',function(e){var t=e.target&&e.target.tagName;if(t!=='INPUT'&&t!=='TEXTAREA')e.preventDefault()});
 start();
