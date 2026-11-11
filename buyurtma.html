@@ -168,12 +168,12 @@ function send(btn){
 function renderDone(){
  var r=S.res,h='<div class="pad"><div class="msg"><div class="e">✅</div><h2>№'+r.no+' qabul qilindi</h2><p>'+(r.dup?'Bu buyurtma avval yuborilgan edi.':'Guruhdagi mijoz mavzusiga kartochka yuborildi.')+(r.jonli===false?' (SINOV: jadvalga yozilmadi)':'')+'</p></div>';
  if(!r.dup)h+='<div class="sum"><div class="r"><span>Jami</span><b>'+fmt(r.total)+' so’m</b></div><div class="r"><span>Mijoz qarzi</span><b class="sp">'+fmt(r.debt)+' so’m</b></div></div>';
- if(r.warn)h+='<div class="err">⚠️ '+esc(r.warn)+'</div>';
+ if(r.warn)h+='<div class="err">⚠️ '+esc(r.warn)+'</div>';if(!r.dup){h+='<div class="test" style="background:#f0ebff;border-color:#d9ceff;color:#2a0f9a">📎 <b>Mijoz faylini yuboring.</b> Ilovani yoping va fayl yoki rasmni shu botning chatiga yuboring (yoki forward qiling). U avtomatik shu buyurtmaning mavzusiga tushadi.</div><button class="btn" id="fl" type="button">📎 Faylni yuborish</button>'}
  if(r.link)h+='<button class="btn sec" id="ol" type="button">📂 Mijoz mavzusini ochish</button>';
  h+='<button class="btn" id="nw" type="button">➕ Yana buyurtma</button></div>';
  app.innerHTML=h;
  var e=document.getElementById('ol');if(e)e.onclick=function(){try{Telegram.WebApp.openTelegramLink(r.link)}catch(x){window.open(r.link,'_blank')}};
- document.getElementById('nw').onclick=function(){resetForm();render();window.scrollTo(0,0)};
+ var f=document.getElementById('fl');if(f)f.onclick=function(){try{Telegram.WebApp.close()}catch(x){}};document.getElementById('nw').onclick=function(){resetForm();render();window.scrollTo(0,0)};
 }
 var ST={yangi:'Kutilmoqda',ish:'Ishlanmoqda',tayyor:'Tayyor'};
 function renderToday(){
