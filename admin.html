@@ -79,7 +79,7 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stro
 (function(){
 var API='https://script.google.com/macros/s/AKfycbxrgvgBAe3sC-VPqLGj4a-qSWU872AotQ7y6bEdjXX7tsGUe-7_7qyUjiSYmCGLRU7M/exec';
 var tw=window.Telegram&&Telegram.WebApp; try{if(tw){tw.ready();tw.expand();tw.setHeaderColor('#3A10D8')}}catch(e){}
-var K='';try{var u=new URLSearchParams(location.search);K=u.get('k')||'';if(K){localStorage.setItem('adm_k',K);history.replaceState(null,'',location.pathname)}else K=localStorage.getItem('adm_k')||''}catch(e){}
+var K='';try{if(location.search)history.replaceState(null,'',location.pathname);K=localStorage.getItem('adm_k')||''}catch(e){}
 var I=(tw&&tw.initData)||'';
 var D=null, S={tab:'kun',day:'',per:'oy',from:'',to:'',mon:'',q:''};
 var NAMES=['Kunlik','Oylik','Umumiy','Davr','Kassa','Qarz'],KEYS=['kun','oy','um','dv','ks','qz'];
@@ -112,17 +112,30 @@ function load(fresh){
  try{var c=localStorage.getItem('adm_cache');if(c&&!D){D=JSON.parse(c);init();draw()}}catch(e){}
  return call('get',fresh?{fresh:1}:{}).then(function(r){
   if(r&&r.ok){D=r.d;try{localStorage.setItem('adm_cache',JSON.stringify(D))}catch(e){}init();draw()}
-  else if(r&&r.code==='auth'){D=null;try{localStorage.removeItem('adm_cache')}catch(e){}deny()}
+  else if(r&&r.code==='auth'){D=null;try{localStorage.removeItem('adm_cache')}catch(e){}if(I)deny();else{K='';try{localStorage.removeItem('adm_k')}catch(e){}login('Sessiya tugadi. Qayta kiring.')}}
   else if(!D){fail(r&&r.msg)}else toast('Yangilanmadi: '+((r&&r.msg)||'xato'))
  }).catch(function(){if(!D)fail('Internet yo‘q yoki server javob bermadi.');else toast('Internet yo‘q — oxirgi saqlangan ma’lumot')})}
 function init(){if(!S.day)S.day=D.now;if(!S.mon)S.mon=D.now.slice(0,7);if(!S.from){S.from=mstart(D.now);S.to=D.now}}
 function deny(){$('hd').innerHTML='<div class="top"><h1>TIMPRINT Admin</h1></div>';$('nv').innerHTML='';$('mn').innerHTML='<div class="msg"><b>Kirish yo‘q</b>Bu ilova faqat egasi uchun. Telegramda TIMPRINT hisobot botiga <b style="display:inline;font-size:inherit">/admin</b> deb yozing va u yuborgan tugmani bosing.</div>'}
+function login(msg){$('hd').innerHTML='<div class="top"><h1>TIMPRINT Admin</h1></div>';$('nv').innerHTML='';
+ $('mn').innerHTML='<form class="card f" id="lf" autocomplete="on"><h3>Kirish</h3><div class="small neg" id="le"></div>'
+ +'<input id="lu" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Login" required>'
+ +'<input id="lp" name="password" type="password" autocomplete="current-password" placeholder="Parol" required>'
+ +'<button class="btn" id="lb" type="submit">Kirish</button>'
+ +'<div class="small mut">Login va parolni o‘rnatish yoki almashtirish: Telegramda TIMPRINT hisobot botiga <b>/parol</b> deb yozing.</div></form>';
+ if(msg)$('le').textContent=msg;
+ $('lf').onsubmit=function(e){e.preventDefault();var u=$('lu').value,p=$('lp').value;if(!u||!p)return;$('lb').disabled=true;$('le').textContent='';
+  call('login',{login:u,parol:p}).then(function(r){
+   if(r&&r.ok&&r.k){K=r.k;try{localStorage.setItem('adm_k',K)}catch(x){}$('mn').innerHTML='<div class="msg"><b>Yuklanmoqda…</b></div>';load()}
+   else{$('lb').disabled=false;$('lp').value='';$('le').textContent=r&&r.code==='nopass'?'Login va parol hali o‘rnatilmagan. Telegramda botga /parol deb yozing.':((r&&r.msg)||'Xato')}
+  }).catch(function(){$('lb').disabled=false;$('le').textContent='Internet yo‘q yoki server javob bermadi.'})}}
+function logout(){K='';D=null;try{localStorage.removeItem('adm_k');localStorage.removeItem('adm_cache')}catch(e){}login()}
 function fail(m){$('mn').innerHTML='<div class="msg"><b>Ulanib bo‘lmadi</b>'+esc(m||'Birozdan keyin qayta urinib ko‘ring.')+'<br><br><button class="btn sec" id="rt">Qayta urinish</button></div>';$('rt').onclick=function(){load(1)}}
 
 function nav(){$('nv').innerHTML=KEYS.map(function(k,i){return '<button data-t="'+k+'" class="'+(S.tab===k?'on':'')+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+ICONS[k]+'</svg>'+NAMES[i]+'</button>'}).join('');
  Array.prototype.forEach.call($('nv').querySelectorAll('button'),function(b){b.onclick=function(){S.tab=b.getAttribute('data-t');draw();window.scrollTo(0,0)}})}
-function head(title,inner){return '<div class="top"><h1>'+title+'</h1><button class="upd" id="rf">↻ '+esc(D.at.slice(-5))+'</button></div>'+(inner||'')}
-function bind(){var r=$('rf');if(r)r.onclick=function(){load(1).then(function(){toast('Yangilandi')})}}
+function head(title,inner){return '<div class="top"><h1>'+title+'</h1><span><button class="upd" id="rf">↻ '+esc(D.at.slice(-5))+'</button>'+(I?'':'<button class="upd" id="lo"> · Chiqish</button>')+'</span></div>'+(inner||'')}
+function bind(){var o=$('lo');if(o)o.onclick=logout;var r=$('rf');if(r)r.onclick=function(){load(1).then(function(){toast('Yangilandi')})}}
 function dayChips(){var t=D.now,y=add(t,-1),on=S.day;return '<div class="chips"><button data-d="'+t+'" class="'+(on===t?'on':'')+'">Bugun</button><button data-d="'+y+'" class="'+(on===y?'on':'')+'">Kecha</button><button data-pick="1" class="'+(on!==t&&on!==y?'on':'')+'">'+(on!==t&&on!==y?dm(on):'Sana…')+'</button></div><input type="date" id="dp" value="'+on+'" max="'+t+'" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px">'+'<div class="sub">'+dmy(on)+', '+WD[wd(on)]+'</div>'}
 function bindDay(){var h=$('hd');Array.prototype.forEach.call(h.querySelectorAll('[data-d]'),function(b){b.onclick=function(){S.day=b.getAttribute('data-d');draw()}});var p=h.querySelector('[data-pick]'),i=$('dp');if(p&&i){p.onclick=function(){try{i.showPicker?i.showPicker():i.click()}catch(e){i.click()}};i.onchange=function(){if(i.value){S.day=i.value;draw()}}}}
 function mrows(r){var mx=Math.max(r.dtf,r.uv,r.ot,1);function one(n,v,u){return '<div class="row"><span>'+n+'</span><b>'+(u==='d'?Math.round(v)+' dona':mt(v)+' m')+'</b></div><div class="bar"><i style="width:'+Math.min(100,(u==='d'?v/Math.max(r.pr,1):v/mx)*100)+'%"></i></div>'}
@@ -199,7 +212,7 @@ function vQz(){var cs=D.cust.filter(function(c){return c.debt>0}).sort(function(
  $('qs').oninput=function(){S.q=this.value;list()};list();bind()}
 
 function draw(){if(!D)return;nav();var f={kun:vKun,oy:vOy,um:vUm,dv:vDv,ks:vKs,qz:vQz}[S.tab];try{f()}catch(e){$('mn').innerHTML='<div class="msg"><b>Xato</b>'+esc(e&&e.message)+'</div>'}bind()}
-load();
+if(!I&&!K)login();else load();
 if('serviceWorker' in navigator){try{navigator.serviceWorker.register('admin-sw.js')}catch(e){}}
 })();
 </script>
