@@ -58,6 +58,8 @@ main{flex:1;padding:14px max(16px,env(safe-area-inset-right,0px)) calc(28px + en
 .msg a{color:var(--v);font-weight:600}
 .empty{text-align:center;color:var(--mut);font-size:14px;padding:26px 8px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:#1B1536;color:#fff;border-radius:12px;padding:11px 16px;font-size:13px;z-index:9;max-width:90%}
+.fls{display:flex;gap:6px;flex-wrap:wrap}
+.flb{border:0;border-radius:99px;padding:6px 12px;background:var(--track);color:var(--v);font:600 12px inherit;font-family:inherit;cursor:pointer}
 .sino{background:var(--warnbg);color:var(--warnfg);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:600}
 </style>
 </head>
@@ -106,12 +108,14 @@ function draw(){head();var items=D.items,td=D.today,k=D.kun,canAct=k===td,m=0,dn
   g.list.forEach(function(o){
    var by=o.holat==='ish'?'🖨 '+esc(o.bk)+' · '+esc(String(o.bv).slice(-5)):o.holat==='tayyor'?'✅ '+esc(o.tk)+' · '+esc(String(o.tv).slice(-5)):'';
    h+='<div class="ord"><div class="or"><div class="om">'+(o.carry?'<span class="carry">📆 '+esc(String(o.kun).slice(8,10)+'.'+String(o.kun).slice(5,7))+'</span>':'')+'<b>№'+o.no+'</b> · '+esc(o.mat)+' <b>'+(o.u==='dona'?Math.round(o.qty)+' dona':mt(o.qty)+' m')+'</b>'+(by?'<div class="ob">'+by+'</div>':'')+(o.izoh?'<div class="note">📝 '+esc(o.izoh)+'</div>':'')+'</div>'+pill(o.holat)+'</div>';
+   if(o.fl&&o.fl.length)h+='<div class="fls">'+o.fl.map(function(u,i){return '<button class="flb" data-u="'+esc(u)+'">📎 Fayl '+(o.fl.length>1?(i+1):'')+'</button>'}).join('')+'</div>';
    if((canAct||o.carry)&&o.holat!=='tayyor'){
     h+='<div class="acts">'+(o.holat==='yangi'?'<button class="act a-s" data-no="'+o.no+'" data-a="s">🖨 Boshladim</button>':'')+'<button class="act a-d'+(Ask===o.no?' ask':'')+'" data-no="'+o.no+'" data-a="d">'+(Ask===o.no?'Ha, tayyor ✓':'✅ Tayyor')+'</button></div>'}
    h+='</div>'});
   h+='</div>'});
  $('mn').innerHTML=h;
- Array.prototype.forEach.call($('mn').querySelectorAll('[data-a]'),function(b){b.onclick=function(){act(Number(b.getAttribute('data-no')),b.getAttribute('data-a'))}})}
+ Array.prototype.forEach.call($('mn').querySelectorAll('[data-a]'),function(b){b.onclick=function(){act(Number(b.getAttribute('data-no')),b.getAttribute('data-a'))}});
+ Array.prototype.forEach.call($('mn').querySelectorAll('[data-u]'),function(b){b.onclick=function(){var u=b.getAttribute('data-u');try{if(tw&&tw.openTelegramLink)tw.openTelegramLink(u);else window.open(u,'_blank')}catch(e){window.open(u,'_blank')}}})}
 function act(no,a){
  if(Busy)return;
  if(a==='d'&&Ask!==no){Ask=no;clearTimeout(AskT);AskT=setTimeout(function(){if(Ask===no){Ask=0;if(D)draw()}},3500);draw();return}
