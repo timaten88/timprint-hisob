@@ -153,7 +153,7 @@ this.workerSrc)).WorkerMessageHandler})())}}class WorkerTransport{downloadInfoCa
 <script>
 /* CDR serveri (LibreOffice). url bo'sh bo'lsa — mahalliy (taxminiy) usul. O'rnatilgach shu yerga manzil yoziladi. */
 window.TP_CDR = { url: 'https://timprint-cdr-production.up.railway.app', maxMB: 95, maxUploadMB: 260, timeoutS: 210, verifyTimeoutS: 1200,
-  headers: function () { var h = {}; try { var tg = window.Telegram && window.Telegram.WebApp; if (tg && tg.initData) h['x-tg-init'] = tg.initData; var k = localStorage.getItem('tp_cdr_key'); if (k) h['x-key'] = k; } catch (e) { } return h; } };
+  headers: function () { var h = {}; try { var tg = window.Telegram && window.Telegram.WebApp; var iv = (tg && tg.initData) || ''; if (!iv) { try { iv = sessionStorage.getItem('tp_init') || ''; } catch (e) { } } if (iv) h['x-tg-init'] = iv; var k = localStorage.getItem('tp_cdr_key'); if (k) h['x-key'] = k; } catch (e) { } return h; } };
 try { var m = location.search.match(/cdrkey=([^&]+)/); if (m) { localStorage.setItem('tp_cdr_key', decodeURIComponent(m[1])); history.replaceState(null, '', location.pathname); } } catch (e) { }
 </script>
 <script>
@@ -593,7 +593,7 @@ function view(){
   h+='<div class="res'+(ok?'':' w')+'"><div class="n">📄 '+esc(r.name)+' · '+(r.size/1048576).toFixed(1)+' MB · '+esc(r.o.fmt)+'</div>';
   if(ok){h+='<b class="m">'+(m.approx?'≈ ':'')+m.meters.toFixed(m.dec||2)+' m</b>'+(m.approx?'<div class="det" style="color:#a16200">'+t('approx')+esc(txt(m))+'</div>':'')+'<div class="det">'+t('w')+' '+m.widthCm.toFixed(1)+' '+t('sm')+' × '+t('l')+' '+m.lengthCm.toFixed(1)+' '+t('sm')+(m.pageLengthCm&&m.pageLengthCm-m.lengthCm>1.5?' ('+(LG==='ru'?'лист':'varaq')+' '+(m.pageLengthCm/100).toFixed(3)+' m, '+(LG==='ru'?'работа':'ish')+' '+m.meters.toFixed(3)+' m)':'')+'</div><div class="lock">'+t('lock')+'</div>'}
   else{h+='<b class="m" style="font-size:16px;color:#a16200">'+t('nom')+'</b><div class="det">'+esc(txt(m))+'</div><div class="lock">'+t('nomp')+'</div>'}
-  h+=(S.vst==='wait'?'<div class="det" id="vst">'+t('vwait')+' '+S.pct+'%</div>':S.vst==='ok'?'<div class="det" style="color:#0a7a3d">'+t('vok')+'</div>':S.vst==='fail'?'<div class="det" style="color:#a16200">'+t('vfail')+'</div>':'');
+  h+=(S.vst==='wait'?'<div class="det" id="vst">'+t('vwait')+' '+S.pct+'%</div>':S.vst==='ok'?'<div class="det" style="color:#0a7a3d">'+t('vok')+'</div>':S.vst==='fail'?'<div class="det" style="color:#a16200">'+t('vfail')+' ['+(S.why||'?')+']</div>':'');
   h+='</div>'}
  h+='<label class="k">'+t('due')+'</label><div class="chips" style="margin:0">'+[['bugun','d1'],['ertaga','d2'],['kelgusi','d3']].map(function(x){return '<button type="button" class="chip'+(S.due===x[0]?' on':'')+'" data-u="'+x[0]+'">'+t(x[1])+'</button>'}).join('')+'</div>';
  h+='<label class="k">'+t('note')+'</label><textarea class="ta" id="note" maxlength="300" placeholder="'+esc(t('noteph'))+'">'+esc(S.note)+'</textarea>';
@@ -616,8 +616,8 @@ function upVerify(fl,seq){ // faylni serverga yuklab, metrni qayta hisoblatadi v
   x.setRequestHeader('content-type','application/octet-stream');x.setRequestHeader('x-name',encodeURIComponent(fl.name));x.setRequestHeader('x-svc',S.svc);
   for(var k in hd)x.setRequestHeader(k,hd[k]);
   x.upload.onprogress=function(e){if(seq!==S.seq||!e.lengthComputable)return;S.pct=Math.min(99,Math.round(e.loaded/e.total*100));var el=document.getElementById('vst');if(el)el.textContent=t('vwait')+' '+S.pct+'%'};
-  x.onload=function(){var j=null;try{j=JSON.parse(x.responseText)}catch(e){}res(j&&j.ok&&j.v&&j.sig?j:null)};
-  x.onerror=x.ontimeout=x.onabort=function(){res(null)};
+  x.onload=function(){var j=null;try{j=JSON.parse(x.responseText)}catch(e){}S.why=x.status+(hd['x-tg-init']?'':' noinit');res(j&&j.ok&&j.v&&j.sig?j:null)};
+  x.onerror=function(){S.why='net';res(null)};x.ontimeout=function(){S.why='timeout';res(null)};x.onabort=function(){res(null)};
   x.send(fl)})}
 async function measure(fl){
  var seq=++S.seq;if(S.xhr){try{S.xhr.abort()}catch(e){}S.xhr=null}
