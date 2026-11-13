@@ -67,6 +67,21 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stro
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:#1B1536;color:#fff;padding:10px 16px;border-radius:99px;font-size:13px;z-index:9}
 .tbl{width:100%;border-collapse:collapse;font-size:13px}.tbl td,.tbl th{padding:6px 4px;text-align:right;border-bottom:1px solid var(--line)}.tbl th{font-weight:500;color:var(--mut);font-size:12px}.tbl td:first-child,.tbl th:first-child{text-align:left}
 .scroll{max-height:320px;overflow:auto}
+.cl{display:flex;flex-direction:column;gap:8px}
+.cc{display:flex;align-items:center;gap:12px;width:100%;border:0;text-align:left;background:var(--card);color:var(--fg);border-radius:14px;padding:12px 14px;box-shadow:0 1px 3px rgba(27,21,54,.08);cursor:pointer;font-family:inherit}
+.av{flex:0 0 40px;height:40px;border-radius:50%;background:var(--track);color:var(--v);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.cc .ci{flex:1;min-width:0}.cc .n{font-size:15px;font-weight:600;overflow-wrap:anywhere}.cc .s{font-size:12px;color:var(--mut);margin-top:2px;overflow-wrap:anywhere}
+.cc .ca{text-align:right;white-space:nowrap}.cc .ca b{display:block;font-size:15px}.cc .ca small{font-size:11px;color:var(--mut)}
+.cname{font-size:22px;font-weight:700;overflow-wrap:anywhere}
+.li{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}.li:last-child{border-bottom:0}
+.li .d{flex:0 0 44px;font-size:12px;color:var(--mut);line-height:1.3}
+.li .m{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.li .m b{font-size:14px}.li .m span{font-size:12px;color:var(--mut);overflow-wrap:anywhere}
+.li .s{text-align:right;font-weight:600;font-size:14px;white-space:nowrap;display:flex;flex-direction:column}.li .s small{font-size:11px;font-weight:500}
+.mh{font-size:12px;font-weight:600;color:var(--mut);padding:12px 0 2px;text-transform:uppercase;letter-spacing:.04em}
+.tag{display:inline-block;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:600;margin-right:6px;background:var(--track);color:var(--v)}
+.shade{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(10,8,25,.55);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.sheet{width:100%;max-width:520px;background:var(--card);border-radius:20px 20px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+.sheet h3{margin:0 0 8px;font-size:16px}
 </style>
 </head>
 <body>
@@ -81,8 +96,8 @@ var API='https://script.google.com/macros/s/AKfycbxrgvgBAe3sC-VPqLGj4a-qSWU872Ao
 var tw=window.Telegram&&Telegram.WebApp; try{if(tw){tw.ready();tw.expand();tw.setHeaderColor('#3A10D8')}}catch(e){}
 var K='';try{if(location.search)history.replaceState(null,'',location.pathname);K=localStorage.getItem('adm_k')||''}catch(e){}
 var I=(tw&&tw.initData)||'';
-var D=null, OD={}, S={tab:'kun',day:'',per:'oy',from:'',to:'',mon:'',q:''};
-var NAMES=['Kunlik','Oylik','Umumiy','Davr','Kassa','Qarz'],KEYS=['kun','oy','um','dv','ks','qz'];
+var D=null, OD={}, S={tab:'kun',day:'',per:'oy',from:'',to:'',mon:'',q:'',mf:'all',ms:'debt',cid:'',ct:'tar',lim:80};
+var NAMES=['Kunlik','Oylik','Umumiy','Davr','Kassa','Mijozlar'],KEYS=['kun','oy','um','dv','ks','qz'];
 var ICONS={kun:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/>',oy:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',um:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',dv:'<path d="M3 6h18M3 12h18M3 18h12"/>',ks:'<rect x="2" y="6" width="20" height="13" rx="2"/><circle cx="12" cy="12.5" r="2.5"/>',qz:'<circle cx="9" cy="8" r="3.5"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M17 11a3 3 0 100-6M22 20c0-3-2-5-4-5.5"/>'};
 var MON=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentyabr','Oktyabr','Noyabr','Dekabr'];
 var WD=['yakshanba','dushanba','seshanba','chorshanba','payshanba','juma','shanba'];
@@ -109,7 +124,7 @@ function call(op,extra){var b={a:'adm',op:op,i:I,k:K};for(var k in extra||{})b[k
 function toast(t){var e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(function(){e.remove()},2400)}
 
 function load(fresh){
- OD={};
+ OD={};MJC={};MJL={};
  try{var c=localStorage.getItem('adm_cache');if(c&&!D){D=JSON.parse(c);init();draw()}}catch(e){}
  return call('get',fresh?{fresh:1}:{}).then(function(r){
   if(r&&r.ok){D=r.d;try{localStorage.setItem('adm_cache',JSON.stringify(D))}catch(e){}init();draw()}
@@ -134,7 +149,7 @@ function logout(){K='';D=null;try{localStorage.removeItem('adm_k');localStorage.
 function fail(m){$('mn').innerHTML='<div class="msg"><b>Ulanib bo‘lmadi</b>'+esc(m||'Birozdan keyin qayta urinib ko‘ring.')+'<br><br><button class="btn sec" id="rt">Qayta urinish</button></div>';$('rt').onclick=function(){load(1)}}
 
 function nav(){$('nv').innerHTML=KEYS.map(function(k,i){return '<button data-t="'+k+'" class="'+(S.tab===k?'on':'')+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+ICONS[k]+'</svg>'+NAMES[i]+'</button>'}).join('');
- Array.prototype.forEach.call($('nv').querySelectorAll('button'),function(b){b.onclick=function(){S.tab=b.getAttribute('data-t');draw();window.scrollTo(0,0)}})}
+ Array.prototype.forEach.call($('nv').querySelectorAll('button'),function(b){b.onclick=function(){S.tab=b.getAttribute('data-t');if(S.tab==='qz')S.cid='';draw();window.scrollTo(0,0)}})}
 function head(title,inner){return '<div class="top"><h1>'+title+'</h1><span><button class="upd" id="rf">↻ '+esc(D.at.slice(-5))+'</button>'+(I?'':'<button class="upd" id="lo"> · Chiqish</button>')+'</span></div>'+(inner||'')}
 function bind(){var o=$('lo');if(o)o.onclick=logout;var r=$('rf');if(r)r.onclick=function(){load(1).then(function(){toast('Yangilandi')})}}
 function dayChips(){var t=D.now,y=add(t,-1),on=S.day;return '<div class="chips"><button data-d="'+t+'" class="'+(on===t?'on':'')+'">Bugun</button><button data-d="'+y+'" class="'+(on===y?'on':'')+'">Kecha</button><button data-pick="1" class="'+(on!==t&&on!==y?'on':'')+'">'+(on!==t&&on!==y?dm(on):'Sana…')+'</button></div><input type="date" id="dp" value="'+on+'" max="'+t+'" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px">'+'<div class="sub">'+dmy(on)+', '+WD[wd(on)]+'</div>'}
@@ -206,11 +221,88 @@ function vKs(){var y=S.day,k=kassa(y);
  $('ca').onclick=function(){var s=Number($('cs').value.replace(/\s/g,''));if(!(s>0)){toast('Summani kiriting');return}this.disabled=true;call('chiqim',{sana:y,summa:s,tur:$('ct').value,izoh:$('ci').value}).then(function(r){if(r.ok){toast('Chiqim qo‘shildi');load(1)}else{toast(r.msg||'Xato');draw()}}).catch(function(){toast('Internet yo‘q');draw()})};
  $('cl').onclick=function(){var v=$('sn').value.replace(/\s/g,'');if(v===''||!(Number(v)>=0)){toast('Sanalgan summani kiriting');return}this.disabled=true;call('kun',{sana:y,sanalgan:Number(v),hisob:k.hisob}).then(function(r){if(r.ok){toast('Kun yopildi');load(1)}else{toast(r.msg||'Xato');draw()}}).catch(function(){toast('Internet yo‘q');draw()})}}
 
-function vQz(){var cs=D.cust.filter(function(c){return c.debt>0}).sort(function(a,b){return b.debt-a.debt}),tot=cs.reduce(function(s,c){return s+c.debt},0);
- $('hd').innerHTML=head('Qarzdorlar','<div><div class="sub">Jami qarz</div><div class="big">'+fmt(tot)+' <span class="sub">so‘m</span></div></div>');
- $('mn').innerHTML='<div class="search"><span aria-hidden="true">🔍</span><input id="qs" placeholder="Mijoz qidirish" value="'+esc(S.q)+'"></div><div id="ql" style="display:flex;flex-direction:column;gap:10px"></div>';
- function list(){var q=S.q.trim().toLowerCase(),a=cs.filter(function(c){return !q||c.name.toLowerCase().indexOf(q)>=0||c.id.toLowerCase()===q});
-  $('ql').innerHTML=a.map(function(c){return '<div class="card deb"><div style="min-width:0"><div class="n">'+esc(c.name)+'</div><div class="small mut">'+c.n+' ta buyurtma'+(c.last?' · oxirgisi '+dm(c.last):'')+(c.ph?' · <a href="tel:'+esc(c.ph.replace(/[^+\d]/g,''))+'" style="text-decoration:underline">'+esc(c.ph)+'</a>':'')+'</div></div><div class="a">'+fmt(c.debt)+'</div></div>'}).join('')||'<div class="msg">Qarzdor topilmadi</div>'}
+var TN={D:'DTF',U:'UV DTF',P:'Press',X:'Boshqa'},MJC={},MJL={};
+function ini(s){var w=String(s||'').replace(/[^A-Za-zА-Яа-яЁёЎўҚқҒғҲҳ0-9\s]/g,' ').trim().split(/\s+/);return ((w[0]||'?').charAt(0)+(w[1]?w[1].charAt(0):'')).toUpperCase()}
+function netO(o){return (o.t||0)-(o.ds||0)}
+function qtyO(o){return o.c==='P'?(Math.round(o.q*1000)/1000+' dona'):(mt(o.q)+' m')}
+function stO(o){return o.db>0.5?(o.db<netO(o)-0.5?'<small class="neg">qoldiq '+fmt(o.db)+'</small>':'<small class="neg">to‘lanmagan</small>'):'<small class="pos">to‘langan</small>'}
+function prepMj(d){
+ var O=d.o.map(function(r){return {d:r[0],c:r[1],m:r[2],q:r[3],pr:r[4],t:r[5],pd:r[6],db:r[7],n:r[8],ds:r[9]}});
+ O.sort(function(a,b){return a.d<b.d?1:(a.d>b.d?-1:0)});
+ var sep=0;d.p.forEach(function(r){if(r[1]>0)sep+=r[1]});
+ O.forEach(function(x){var ex=(x.pd||0)-netO(x);if(ex>0)sep+=ex});
+ if(d.eski>0)sep=Math.max(0,sep-d.eski);
+ O.slice().reverse().forEach(function(o){var rem=Math.max(0,netO(o)-(o.pd||0)),use=Math.min(rem,sep);sep-=use;o.db=rem-use});
+ var P=[];d.p.forEach(function(r){var l=String(r[2]||'');if(l.indexOf('Tolovlar')>-1||l==='')l='Alohida to‘lov';P.push({d:r[0],a:r[1],l:l})});
+ O.forEach(function(o){if(o.pd>0)P.push({d:o.d,a:o.pd,l:'Buyurtma bilan: '+TN[o.c]})});
+ P.sort(function(a,b){return a.d<b.d?1:(a.d>b.d?-1:0)});
+ var tot=0,paid=0,a={D:0,U:0,P:0,X:0};O.forEach(function(o){tot+=netO(o);a[o.c]+=o.q||0});P.forEach(function(p){paid+=p.a});
+ return {d:d,O:O,P:P,tot:tot,paid:paid,a:a}}
+function openMj(id){S.cid=id;S.ct='tar';S.lim=80;try{history.pushState({mj:1},'')}catch(e){}draw();window.scrollTo(0,0)}
+function closeMj(){S.cid='';draw()}
+window.addEventListener('popstate',function(){if(S.cid){S.cid='';if(D)draw()}});
+function shO(o){
+ var h='<div class="shade" id="sh"><div class="sheet"><h3><span class="tag">'+TN[o.c]+'</span>'+esc(o.m||TN[o.c])+'</h3>'
+ +'<div class="row"><span>Sana</span><b>'+dmy(o.d)+'</b></div><div class="row"><span>'+(o.c==='P'?'Soni':'Metr')+'</span><b>'+qtyO(o)+'</b></div>'
+ +'<div class="row"><span>Narxi</span><b>'+fmt(o.pr)+' so‘m</b></div><div class="row"><span>Summa</span><b>'+fmt(o.t)+' so‘m</b></div>'
+ +(o.ds>0?'<div class="row"><span>Chegirma</span><b>−'+fmt(o.ds)+' so‘m</b></div>':'')
+ +'<div class="row"><span>To‘langan</span><b class="pos">'+fmt(netO(o)-o.db)+' so‘m</b></div>'
+ +'<div class="row"><span>To‘lanmagan</span><b class="'+(o.db>0.5?'neg':'pos')+'">'+(o.db>0.5?fmt(o.db)+' so‘m':'yo‘q')+'</b></div>'
+ +(o.n?'<div class="row"><span>Izoh</span><b style="white-space:normal;text-align:right">'+esc(o.n)+'</b></div>':'')
+ +'<button class="btn sec" id="shc" style="margin-top:12px">Yopish</button></div></div>';
+ var w=document.createElement('div');w.innerHTML=h;document.body.appendChild(w);
+ var c=function(){document.body.removeChild(w)};w.querySelector('#shc').onclick=c;w.querySelector('#sh').onclick=function(e){if(e.target===this)c()}}
+function vMj(){
+ var id=S.cid,c=D.cust.filter(function(x){return x.id===id})[0]||{id:id,name:id,ph:''},m=MJC[id];
+ var tel=c.ph?' · <a href="tel:'+esc(c.ph.replace(/[^+\d]/g,''))+'" style="text-decoration:underline">'+esc(c.ph)+'</a>':'';
+ $('hd').innerHTML='<div class="top"><button class="upd" id="bk" style="font-size:14px">‹ Mijozlar</button><span><button class="upd" id="rf">↻ '+esc(D.at.slice(-5))+'</button></span></div><div><div class="cname">'+esc(c.name)+'</div><div class="sub">'+esc(id)+tel+'</div></div>';
+ var bk=$('bk');bk.onclick=function(){if(history.state&&history.state.mj)history.back();else closeMj()};
+ if(!m){$('mn').innerHTML='<div class="msg"><b>Yuklanmoqda…</b></div>';
+  if(!MJL[id]){MJL[id]=1;call('mj',{cid:id}).then(function(r){MJL[id]=0;MJC[id]=(r&&r.ok)?prepMj(r.d):{err:(r&&r.msg)||'Yuklab bo‘lmadi'};if(S.cid===id&&S.tab==='qz')draw()}).catch(function(){MJL[id]=0;MJC[id]={err:'Internet yo‘q yoki server javob bermadi.'};if(S.cid===id&&S.tab==='qz')draw()})}
+  return}
+ if(m.err){$('mn').innerHTML='<div class="msg"><b>Ulanib bo‘lmadi</b>'+esc(m.err)+'<br><br><button class="btn sec" id="rt">Qayta urinish</button></div>';$('rt').onclick=function(){delete MJC[id];draw()};return}
+ var d=m.d,qarz=d.qarz,a=m.a,O=m.O,P=m.P,h='';
+ h+='<div class="grid3"><div class="card'+(qarz>0.5?' warn':'')+'"><div class="k">'+(qarz<-0.5?'Avans':'Qarz')+'</div><div class="v">'+fmt(Math.abs(qarz))+'</div></div><div class="card"><div class="k">Jami summa</div><div class="v">'+fmt(m.tot)+'</div></div><div class="card"><div class="k">To‘langan</div><div class="v pos">'+fmt(m.paid)+'</div></div></div>';
+ var tl=[['DTF',mt(a.D)+' m'],['UV DTF',mt(a.U)+' m'],['Press',Math.round(a.P)+' dona']];if(a.X>0)tl.push(['Boshqa',mt(a.X)+' m']);
+ h+='<div class="'+(tl.length>3?'grid2':'grid3')+'">'+tl.map(function(x){return '<div class="card"><div class="k">'+x[0]+'</div><div class="v">'+x[1]+'</div></div>'}).join('')+'</div>';
+ h+='<div class="card small mut">'+O.length+' ta buyurtma · '+P.length+' ta to‘lov'+(O.length?' · birinchisi '+dmy(O[O.length-1].d)+' · oxirgisi '+dmy(O[0].d):'')+(d.eski?'<br>Eski qarz (jadvalgacha): <b>'+fmt(d.eski)+'</b>':'')+'</div>';
+ h+='<div class="pill" id="ct"><button data-t="tar" class="'+(S.ct==='tar'?'on':'')+'">Tarix</button><button data-t="ord" class="'+(S.ct==='ord'?'on':'')+'">Buyurtmalar ('+O.length+')</button><button data-t="pay" class="'+(S.ct==='pay'?'on':'')+'">To‘lovlar ('+P.length+')</button></div>';
+ var items=[];
+ if(S.ct!=='pay')O.forEach(function(o,i){items.push({k:'o',d:o.d,o:o,i:i})});
+ if(S.ct!=='ord')P.forEach(function(p){items.push({k:'p',d:p.d,p:p})});
+ if(S.ct==='tar')items.sort(function(x,y){return x.d<y.d?1:(x.d>y.d?-1:(x.k===y.k?0:(x.k==='o'?-1:1)))});
+ if(!items.length)h+='<div class="msg">Hali yozuv yo‘q</div>';
+ else{h+='<div class="card" style="padding:6px 14px">';var cur='',k;
+  items.slice(0,S.lim).forEach(function(it){k=it.d.slice(0,7);if(k!==cur){cur=k;h+='<div class="mh">'+MON[+k.slice(5,7)-1]+' '+k.slice(0,4)+'</div>'}
+   var dd='<div class="d">'+dm(it.d)+'<br>'+it.d.slice(0,4)+'</div>';
+   if(it.k==='o'){var o=it.o;h+='<div class="li" data-i="'+it.i+'">'+dd+'<div class="m"><b><span class="tag">'+TN[o.c]+'</span>'+qtyO(o)+'</b><span>'+fmt(o.pr)+(o.n?' · '+esc(o.n):'')+'</span></div><div class="s">'+fmt(netO(o))+stO(o)+'</div></div>'}
+   else{var p=it.p;h+='<div class="li" style="cursor:default">'+dd+'<div class="m"><b class="pos">+'+fmt(p.a)+'</b><span>💰 '+esc(p.l)+'</span></div><div class="s pos">✓</div></div>'}});
+  h+='</div>';
+  if(items.length>S.lim)h+='<button class="btn sec" id="more">Yana ko‘rsatish ('+(items.length-S.lim)+' ta qoldi)</button>'}
+ $('mn').innerHTML=h;
+ Array.prototype.forEach.call($('mn').querySelectorAll('#ct button'),function(b){b.onclick=function(){S.ct=b.getAttribute('data-t');S.lim=80;draw()}});
+ Array.prototype.forEach.call($('mn').querySelectorAll('.li[data-i]'),function(r){r.onclick=function(){shO(O[+r.getAttribute('data-i')])}});
+ var mo=$('more');if(mo)mo.onclick=function(){S.lim+=100;var y=window.scrollY;draw();window.scrollTo(0,y)}}
+function vQz(){
+ if(S.cid)return vMj();
+ var all=D.cust.slice(),dc=all.filter(function(c){return c.debt>0.5}),tot=dc.reduce(function(s,c){return s+c.debt},0);
+ var fl={all:all.length,debt:dc.length,ok:all.length-dc.length};
+ $('hd').innerHTML=head('Mijozlar','<div><div class="sub">'+all.length+' ta mijoz · '+dc.length+' ta qarzdor · jami qarz</div><div class="big">'+fmt(tot)+' <span class="sub">so‘m</span></div></div>');
+ var FN=[['all','Hammasi'],['debt','Qarzdor'],['ok','Qarzsiz']],SN=[['debt','Qarz ↓'],['last','Yangi'],['tot','Jami summa'],['name','Ism A–Z']];
+ $('mn').innerHTML='<div class="search"><span aria-hidden="true">🔍</span><input id="qs" placeholder="Ism, ID yoki telefon" value="'+esc(S.q)+'"></div>'
+  +'<div class="pill" id="qf">'+FN.map(function(x){return '<button data-f="'+x[0]+'" class="'+(S.mf===x[0]?'on':'')+'">'+x[1]+' ('+fl[x[0]]+')</button>'}).join('')+'</div>'
+  +'<div class="pill" id="qo">'+SN.map(function(x){return '<button data-s="'+x[0]+'" class="'+(S.ms===x[0]?'on':'')+'">'+x[1]+'</button>'}).join('')+'</div><div id="ql" class="cl"></div>';
+ function list(){var q=S.q.trim().toLowerCase(),qd=q.replace(/\D/g,'');
+  var a=all.filter(function(c){if(S.mf==='debt'&&!(c.debt>0.5))return false;if(S.mf==='ok'&&c.debt>0.5)return false;
+   return !q||c.name.toLowerCase().indexOf(q)>=0||c.id.toLowerCase()===q||(qd.length>=3&&String(c.ph||'').replace(/\D/g,'').indexOf(qd)>=0)});
+  var by={debt:function(x,y){return y.debt-x.debt},last:function(x,y){return x.last<y.last?1:x.last>y.last?-1:y.tot-x.tot},tot:function(x,y){return y.tot-x.tot},name:function(x,y){return x.name.localeCompare(y.name,'uz')}}[S.ms];
+  a.sort(by);
+  $('ql').innerHTML=a.slice(0,300).map(function(c){var dv=c.debt>0.5?'<b class="neg">'+fmt(c.debt)+'</b><small>qarz</small>':(c.debt<-0.5?'<b class="pos">'+fmt(-c.debt)+'</b><small>avans</small>':'<b class="pos">✓</b><small>qarz yo‘q</small>');
+   return '<button class="cc" data-c="'+esc(c.id)+'"><div class="av">'+esc(ini(c.name))+'</div><div class="ci"><div class="n">'+esc(c.name)+'</div><div class="s">'+esc(c.id)+(c.n?' · '+c.n+' ta buyurtma'+(c.last?' · oxirgisi '+dm(c.last):''):' · buyurtma yo‘q')+(c.tot?' · '+fmt(c.tot):'')+'</div></div><div class="ca">'+dv+'</div></button>'}).join('')||'<div class="msg">Mijoz topilmadi</div>';
+  if(a.length>300)$('ql').innerHTML+='<div class="msg small">Birinchi 300 ta ko‘rsatildi. Qidiruvdan foydalaning.</div>';
+  Array.prototype.forEach.call($('ql').querySelectorAll('.cc'),function(b){b.onclick=function(){openMj(b.getAttribute('data-c'))}})}
+ Array.prototype.forEach.call($('qf').querySelectorAll('button'),function(b){b.onclick=function(){S.mf=b.getAttribute('data-f');vQz()}});
+ Array.prototype.forEach.call($('qo').querySelectorAll('button'),function(b){b.onclick=function(){S.ms=b.getAttribute('data-s');vQz()}});
  $('qs').oninput=function(){S.q=this.value;list()};list();bind()}
 
 function draw(){if(!D)return;nav();var f={kun:vKun,oy:vOy,um:vUm,dv:vDv,ks:vKs,qz:vQz}[S.tab];try{f()}catch(e){$('mn').innerHTML='<div class="msg"><b>Xato</b>'+esc(e&&e.message)+'</div>'}bind()}
