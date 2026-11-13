@@ -377,24 +377,34 @@ function setLang(l,save){
  else if(LASTSHOW)show(LASTSHOW[0],LASTSHOW[1],LASTSHOW[2],LASTSHOW[3]);
  else{lgb.hidden=false;app.innerHTML=loadHtml()}
 }
+function cKey(){try{var u=new URLSearchParams(auth.i||'').get('user');var id=u&&JSON.parse(u).id;return id?'tp_mj_'+id:''}catch(e){return ''}}
+function cLoad(){try{var k=cKey();if(!k)return null;var o=JSON.parse(localStorage.getItem(k)||'null');if(!o||!o.d||!o.t||Date.now()-o.t>3*864e5)return null;return o}catch(e){return null}}
+function cSave(d){try{var k=cKey();if(k&&d&&d.o)localStorage.setItem(k,JSON.stringify({t:Date.now(),d:d}))}catch(e){}}
+function cClear(){try{var k=cKey();if(k)localStorage.removeItem(k)}catch(e){}}
+var STALE=false;
 function handle(r){
  if(!r||!r.ok){var c=r&&r.code;
+  if(c==='pending'||c==='none'||c==='auth')cClear();
+  if(STALE&&D&&!c){var wb=document.createElement('div');wb.style.cssText='margin:8px 0;padding:8px 10px;border-radius:10px;background:#fff6e5;color:#8a5a00;font-size:12px';wb.textContent=LG==='ru'?'⚠️ Не удалось обновить — показаны сохранённые данные':'⚠️ Yangilab bo’lmadi — saqlangan ma’lumot ko’rsatilmoqda';if(app.firstChild)app.insertBefore(wb,app.firstChild);return}
   if(c==='pending')show('⏳','e_pending_t','e_pending_p','b_recheck');
   else if(c==='none')show('🔒','e_none_t','e_none_p');
   else if(c==='auth'){show('🔒','e_auth_t','e_auth_p','b_retry');
    var dd=document.createElement('p');dd.style.cssText='margin-top:18px;font-size:10px;color:#9aa1ab';dd.textContent='kod: i='+auth.i.length+' k='+auth.k.length+' hash='+dbg.hash+' tg='+dbg.tw+' srv='+(r.why||'-');if(app.firstChild)app.firstChild.appendChild(dd)}
   else show('⚠️','e_err_t','e_err_p','b_retry');
   return}
+ if(!r.d.admin)cSave(r.d);
  prep(r.d);
  if(okLang(r.d.lang)){ if(r.d.lang!==LG||PENDING){setLang(r.d.lang,false);return} }
  else if(!PENDING)saveLang();
  render();
 }
 function load(cid){
- auth.c=cid||'';LASTSHOW=null;
- if(PENDING)chooser();else{app.innerHTML=loadHtml();tabs.hidden=true;lgb.hidden=false}
+ auth.c=cid||'';LASTSHOW=null;STALE=false;
+ var cc=(!cid&&!PENDING)?cLoad():null;
+ if(cc){try{prep(cc.d);STALE=true;render();var nb=document.createElement('div');nb.id='stale';nb.style.cssText='margin:8px 0;padding:6px 10px;border-radius:10px;background:#eef0ff;color:#4a3fd0;font-size:12px';nb.textContent=LG==='ru'?'⟳ Обновляем…':'⟳ Yangilanmoqda…';if(app.firstChild)app.insertBefore(nb,app.firstChild)}catch(e){STALE=false;D=null;app.innerHTML=loadHtml();tabs.hidden=true;lgb.hidden=false}}
+ else if(PENDING)chooser();else{app.innerHTML=loadHtml();tabs.hidden=true;lgb.hidden=false}
  var b={a:'mj',i:auth.i,k:auth.k,c:auth.c};
- withTimeout(apiPost(b).catch(function(){return apiGet(b)}),60000).then(handle).catch(function(){show('⚠️','e_net_t','e_net_p','b_retry')});
+ withTimeout(apiPost(b).catch(function(){return apiGet(b)}),60000).then(handle).catch(function(){if(STALE&&D){handle({ok:false});return}show('⚠️','e_net_t','e_net_p','b_retry')});
 }
 function start(){
  var tw=window.Telegram&&Telegram.WebApp;
