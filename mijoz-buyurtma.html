@@ -152,7 +152,7 @@ this.workerSrc)).WorkerMessageHandler})())}}class WorkerTransport{downloadInfoCa
 </script>
 <script>
 /* CDR serveri (LibreOffice). url bo'sh bo'lsa — mahalliy (taxminiy) usul. O'rnatilgach shu yerga manzil yoziladi. */
-window.TP_CDR = { url: '', maxMB: 95, timeoutS: 210,
+window.TP_CDR = { url: 'https://timprint-cdr-production.up.railway.app', maxMB: 95, maxUploadMB: 260, timeoutS: 210, verifyTimeoutS: 1200,
   headers: function () { var h = {}; try { var tg = window.Telegram && window.Telegram.WebApp; if (tg && tg.initData) h['x-tg-init'] = tg.initData; var k = localStorage.getItem('tp_cdr_key'); if (k) h['x-key'] = k; } catch (e) { } return h; } };
 try { var m = location.search.match(/cdrkey=([^&]+)/); if (m) { localStorage.setItem('tp_cdr_key', decodeURIComponent(m[1])); history.replaceState(null, '', location.pathname); } } catch (e) { }
 </script>
@@ -564,15 +564,17 @@ var T={uz:{title:'Yangi buyurtma',svc:'Xizmat',file:'Fayl — metrni bot o‘zi 
  nom:'⚠️ Metr hisoblanmadi',nomp:'Baribir yuborishingiz mumkin — operator o‘zi o‘lchaydi va narxni aytadi.',approx:'⚠️ Taxminiy: ',w:'Eni',l:'uzunligi',sm:'sm',lock:'🔒 Metr fayldan avtomatik hisoblandi, o‘zgartirib bo‘lmaydi. Operator RIP’da tekshiradi.',
  back:'← Hisobga qaytish',sentT:'So‘rov yuborildi',sentP:'Endi faylni shu bot chatiga yuboring:',step1:'Chatga qaytish tugmasini bosing',step2:'📎 → «Fayl» ni tanlang va aynan shu faylni yuboring:',step3:'Fayl kelgach admin tasdiqlaydi va pechatga yuboriladi',tochat:'Chatga qaytish',
  e_auth:'Ilovani Telegram ichidan qayta oching.',e_ruxsat:'Bu bo‘lim sizda hali yoqilmagan.',e_limit:'Kutayotgan so‘rovlar ko‘p. Avval oldingilarini yakunlang yoki birozdan keyin urinib ko‘ring.',e_xato:'Server xatosi. Birozdan keyin qayta urinib ko‘ring.',e_net:'Aloqa xatosi. Internetni tekshirib qayta urining.',
- g_eni:'Fayl eni rulon eniga (58 sm) mos emas — operator o‘lchaydi.',g_op:'Operator o‘lchaydi.',g_ap:'Operator aniqlaydi.'},
+ g_eni:'Fayl eni rulon eniga (58 sm) mos emas — operator o‘lchaydi.',g_op:'Operator o‘lchaydi.',g_ap:'Operator aniqlaydi.',
+ vwait:'⏳ Fayl serverda tekshirilmoqda…',vok:'✅ Metr serverda qayta tekshirildi',vfail:'⚠️ Server tekshira olmadi — metrni operator RIP’da tekshiradi.'},
  ru:{title:'Новый заказ',svc:'Услуга',file:'Файл — метраж посчитает бот',pick:'📎 Выберите файл',fmts:'PNG, PDF, TIFF, JPG, PSD, CDR (CorelDRAW X6 и новее)',due:'Когда нужно',d1:'Сегодня',d2:'Завтра',d3:'Через несколько дней',note:'Комментарий (необязательно)',noteph:'Например: логотип 20×20 см, 50 шт',send:'Отправить заказ',sending:'Отправка…',
  wait:'⏳ Измеряется CDR…',waitp:'Определяются реальные границы работы внутри файла. Для больших файлов до 1–2 минут.',
  nom:'⚠️ Метраж не рассчитан',nomp:'Всё равно можно отправить — оператор сам измерит и назовёт цену.',approx:'⚠️ Приблизительно: ',w:'Ширина',l:'длина',sm:'см',lock:'🔒 Метраж рассчитан автоматически по файлу, изменить нельзя. Оператор проверит в RIP.',
  back:'← Вернуться к счёту',sentT:'Заявка отправлена',sentP:'Теперь отправьте файл в чат этого бота:',step1:'Нажмите кнопку «Вернуться в чат»',step2:'📎 → выберите «Файл» и отправьте именно этот файл:',step3:'После получения файла админ подтвердит, и заказ уйдёт в печать',tochat:'Вернуться в чат',
  e_auth:'Откройте приложение заново из Telegram.',e_ruxsat:'Этот раздел у вас пока не включён.',e_limit:'Слишком много ожидающих заявок. Завершите прежние или повторите позже.',e_xato:'Ошибка сервера. Повторите чуть позже.',e_net:'Ошибка связи. Проверьте интернет и повторите.',
- g_eni:'Ширина файла не соответствует рулону (58 см) — измерит оператор.',g_op:'Измерит оператор.',g_ap:'Уточнит оператор.'}};
+ g_eni:'Ширина файла не соответствует рулону (58 см) — измерит оператор.',g_op:'Измерит оператор.',g_ap:'Уточнит оператор.',
+ vwait:'⏳ Файл проверяется на сервере…',vok:'✅ Метраж перепроверен на сервере',vfail:'⚠️ Сервер не смог проверить — метраж проверит оператор в RIP.'}};
 function t(k){return (T[LG]&&T[LG][k])||T.uz[k]||k}
-var S={svc:'D',due:'ertaga',note:'',res:null,wait:null,sending:false,sent:null,err:'',file:null};
+var S={svc:'D',due:'ertaga',note:'',res:null,wait:null,sending:false,sent:null,err:'',file:null,vst:'',pct:0,ver:null,seq:0,xhr:null};
 var app=document.getElementById('app');
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function txt(m){ // o'lchagich xabari: ruscha rejimda umumiy matn
@@ -591,11 +593,12 @@ function view(){
   h+='<div class="res'+(ok?'':' w')+'"><div class="n">📄 '+esc(r.name)+' · '+(r.size/1048576).toFixed(1)+' MB · '+esc(r.o.fmt)+'</div>';
   if(ok){h+='<b class="m">'+(m.approx?'≈ ':'')+m.meters.toFixed(m.dec||2)+' m</b>'+(m.approx?'<div class="det" style="color:#a16200">'+t('approx')+esc(txt(m))+'</div>':'')+'<div class="det">'+t('w')+' '+m.widthCm.toFixed(1)+' '+t('sm')+' × '+t('l')+' '+m.lengthCm.toFixed(1)+' '+t('sm')+(m.pageLengthCm&&m.pageLengthCm-m.lengthCm>1.5?' ('+(LG==='ru'?'лист':'varaq')+' '+(m.pageLengthCm/100).toFixed(3)+' m, '+(LG==='ru'?'работа':'ish')+' '+m.meters.toFixed(3)+' m)':'')+'</div><div class="lock">'+t('lock')+'</div>'}
   else{h+='<b class="m" style="font-size:16px;color:#a16200">'+t('nom')+'</b><div class="det">'+esc(txt(m))+'</div><div class="lock">'+t('nomp')+'</div>'}
+  h+=(S.vst==='wait'?'<div class="det" id="vst">'+t('vwait')+' '+S.pct+'%</div>':S.vst==='ok'?'<div class="det" style="color:#0a7a3d">'+t('vok')+'</div>':S.vst==='fail'?'<div class="det" style="color:#a16200">'+t('vfail')+'</div>':'');
   h+='</div>'}
  h+='<label class="k">'+t('due')+'</label><div class="chips" style="margin:0">'+[['bugun','d1'],['ertaga','d2'],['kelgusi','d3']].map(function(x){return '<button type="button" class="chip'+(S.due===x[0]?' on':'')+'" data-u="'+x[0]+'">'+t(x[1])+'</button>'}).join('')+'</div>';
  h+='<label class="k">'+t('note')+'</label><textarea class="ta" id="note" maxlength="300" placeholder="'+esc(t('noteph'))+'">'+esc(S.note)+'</textarea>';
  if(S.err)h+='<div class="res w" style="margin-top:12px"><div class="det">⚠️ '+esc(S.err)+'</div></div>';
- h+='<button class="cta" id="send" type="button"'+((S.res&&!S.wait&&!S.sending)?'':' disabled')+'>'+(S.sending?t('sending'):t('send'))+'</button>';
+ h+='<button class="cta" id="send" type="button"'+((S.res&&!S.wait&&!S.sending&&S.vst!=='wait')?'':' disabled')+'>'+(S.sending?t('sending'):t('send'))+'</button>';
  h+='<div class="foot" style="margin-top:10px"><a href="#" id="back" style="color:var(--mut)">'+t('back')+'</a></div>';
  app.innerHTML=h;
  var i,b=app.querySelectorAll('[data-s]');for(i=0;i<b.length;i++)b[i].onclick=function(){S.note=document.getElementById('note').value;S.svc=this.getAttribute('data-s');if(S.res&&S.file){remeasure()}else view()};
@@ -604,13 +607,33 @@ function view(){
  var f=document.getElementById('file');f.onchange=async function(){var fl=f.files[0];if(!fl)return;S.note=document.getElementById('note').value;S.err='';S.file=fl;await measure(fl)};
  document.getElementById('send').onclick=send;
 }
+function srvOn(fl){var c=window.TP_CDR;return !!(c&&c.url&&fl.size<=(c.maxUploadMB||260)*1048576)}
+function vToM(v){return{ok:v.meters!=null,meters:v.meters,widthCm:v.widthCm,lengthCm:v.lengthCm,approx:!!v.approx,status:v.status,msg:v.msg||'',warn:v.warn||'',dec:(v.fmt==='PDF'||v.fmt==='CDR')?3:2}}
+function upVerify(fl,seq){ // faylni serverga yuklab, metrni qayta hisoblatadi va imzo oladi
+ return new Promise(function(res){
+  var c=window.TP_CDR,x=new XMLHttpRequest(),hd={};try{hd=c.headers?c.headers():{}}catch(e){}
+  S.xhr=x;x.open('POST',String(c.url).replace(/\/+$/,'')+'/verify');x.timeout=(c.verifyTimeoutS||1200)*1000;
+  x.setRequestHeader('content-type','application/octet-stream');x.setRequestHeader('x-name',encodeURIComponent(fl.name));x.setRequestHeader('x-svc',S.svc);
+  for(var k in hd)x.setRequestHeader(k,hd[k]);
+  x.upload.onprogress=function(e){if(seq!==S.seq||!e.lengthComputable)return;S.pct=Math.min(99,Math.round(e.loaded/e.total*100));var el=document.getElementById('vst');if(el)el.textContent=t('vwait')+' '+S.pct+'%'};
+  x.onload=function(){var j=null;try{j=JSON.parse(x.responseText)}catch(e){}res(j&&j.ok&&j.v&&j.sig?j:null)};
+  x.onerror=x.ontimeout=x.onabort=function(){res(null)};
+  x.send(fl)})}
 async function measure(fl){
- if(/\.cdr$/i.test(fl.name)&&window.TP_CDR&&window.TP_CDR.url){S.wait=fl.name;S.res=null;view()}
- var o=await TPOlchagich.olcha(fl);S.wait=null;S.res={name:fl.name,size:fl.size,o:o,m:TPOlchagich.metraj(o,S.svc)};view()}
-function remeasure(){var r=S.res;S.res.m=TPOlchagich.metraj(r.o,S.svc);view()}
+ var seq=++S.seq;if(S.xhr){try{S.xhr.abort()}catch(e){}S.xhr=null}
+ S.ver=null;S.vst='';S.pct=0;var srv=srvOn(fl),isCdr=/\.cdr$/i.test(fl.name);
+ if(srv&&isCdr){S.wait=fl.name;S.res=null;view()}
+ var o=await TPOlchagich.olcha(fl,{noServer:true});if(seq!==S.seq)return;
+ S.wait=null;S.res={name:fl.name,size:fl.size,o:o,m:TPOlchagich.metraj(o,S.svc)};
+ if(!srv){view();return}
+ S.vst='wait';view();
+ var j=await upVerify(fl,seq);if(seq!==S.seq)return;S.xhr=null;
+ if(j){S.ver={v:j.v,sig:j.sig};S.vst='ok';S.res.m=vToM(j.v);S.res.vsvc=j.v.svc}else{S.vst='fail'}
+ view()}
+function remeasure(){var r=S.res;if(S.ver){S.res.m=vToM(S.ver.v)}else S.res.m=TPOlchagich.metraj(r.o,S.svc);view()}
 async function send(){
  if(!S.res||S.sending)return;S.note=document.getElementById('note').value;S.sending=true;S.err='';view();
- var r=S.res,m=r.m,body={a:'ord',i:initData(),c:CID,svc:S.svc,meters:m.ok?m.meters:null,widthCm:m.ok?m.widthCm:null,lengthCm:m.ok?m.lengthCm:null,approx:!!m.approx,status:m.status,msg:m.ok?'':(m.msg||''),warn:m.warn||'',fname:r.name,fsize:r.size,fmt:r.o.fmt,due:S.due,note:S.note};
+ var r=S.res,m=r.m,body={a:'ord',i:initData(),c:CID,svc:S.svc,meters:m.ok?m.meters:null,widthCm:m.ok?m.widthCm:null,lengthCm:m.ok?m.lengthCm:null,approx:!!m.approx,status:m.status,msg:m.ok?'':(m.msg||''),warn:m.warn||'',fname:r.name,fsize:r.size,fmt:r.o.fmt,due:S.due,note:S.note,vs:S.ver?{v:S.ver.v,sig:S.ver.sig}:null};
  var j=null;
  try{var res=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});j=await res.json()}catch(e){j=null}
  S.sending=false;
