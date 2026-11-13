@@ -77,6 +77,8 @@ input,select,textarea{-webkit-user-select:text;user-select:text}
 .res b.m{display:block;font-size:26px;margin:2px 0}
 .res .lock{font-size:11.5px;color:var(--mut)}
 .res .det{font-size:12px;color:var(--ink);margin-top:4px}
+.res .ml{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);margin-top:6px}.res .m2{font-size:13px;font-weight:700;color:var(--ink);margin-top:2px}.res .m2 span{font-weight:500;color:var(--mut)}
+.res .dims{margin:10px 0 6px;padding:9px 12px;border-radius:12px;background:rgba(58,16,216,.06);font-size:13.5px}.res .dims .dh{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);margin-bottom:4px}.res .dims .dr{display:flex;justify-content:space-between;gap:10px;padding:2px 0}.res .dims .dr span::first-letter{text-transform:uppercase}.res .dims .dr b{font-weight:800;white-space:nowrap}
 .price{margin-top:14px;background:#fff;border:1px solid var(--line);border-left:5px solid var(--navy);border-radius:10px;padding:10px 12px}
 .price small{display:block;font-size:10.5px;color:var(--mut);font-weight:700;text-transform:uppercase}.price b{font-size:20px}.price span{display:block;font-size:11.5px;color:var(--mut);margin-top:2px}
 .cta{display:block;width:100%;margin:18px 0 6px;background:var(--navy);color:#fff;border:0;border-radius:12px;padding:15px;text-align:center;font-weight:800;font-size:15px}
@@ -591,7 +593,9 @@ function view(){
  if(S.wait){h+='<div class="res"><div class="n">📄 '+esc(S.wait)+'</div><b class="m" style="font-size:16px">'+t('wait')+'</b><div class="det">'+t('waitp')+'</div></div>'}
  if(S.res){var r=S.res,m=r.m,ok=m.ok;
   h+='<div class="res'+(ok?'':' w')+'"><div class="n">📄 '+esc(r.name)+' · '+(r.size/1048576).toFixed(1)+' MB · '+esc(r.o.fmt)+'</div>';
-  if(ok){h+='<b class="m">'+(m.approx?'≈ ':'')+m.meters.toFixed(m.dec||2)+' m</b>'+(m.approx?'<div class="det" style="color:#a16200">'+t('approx')+esc(txt(m))+'</div>':'')+'<div class="det">'+t('w')+' '+m.widthCm.toFixed(1)+' '+t('sm')+' × '+t('l')+' '+m.lengthCm.toFixed(1)+' '+t('sm')+(m.pageLengthCm&&m.pageLengthCm-m.lengthCm>1.5?' ('+(LG==='ru'?'лист':'varaq')+' '+(m.pageLengthCm/100).toFixed(3)+' m, '+(LG==='ru'?'работа':'ish')+' '+m.meters.toFixed(3)+' m)':'')+'</div><div class="lock">'+t('lock')+'</div>'}
+  if(ok){h+=(function(){var ru=LG==='ru',sm=ru?'см':'sm',ap=m.approx?'≈ ':'',lab='<div class="ml">'+(ru?'Длина работы':'Ish uzunligi')+'</div>';
+   if(m.meters<1)return lab+'<b class="m">'+ap+m.lengthCm.toFixed(1)+' '+sm+'</b><div class="m2">= '+m.meters.toFixed(m.dec||2)+' m <span>('+(ru?'метры для расчёта':'hisob uchun metr')+')</span></div>';
+   return lab+'<b class="m">'+ap+m.meters.toFixed(m.dec||2)+' m</b><div class="m2">= '+m.lengthCm.toFixed(1)+' '+sm+'</div>'})()+(m.approx?'<div class="det" style="color:#a16200">'+t('approx')+esc(txt(m))+'</div>':'')+'<div class="dims"><div class="dh">'+(LG==='ru'?'Размер вашего файла':'Faylingiz o‘lchami')+'</div><div class="dr"><span>'+t('w')+'</span><b>'+m.widthCm.toFixed(1)+' '+t('sm')+' = '+Math.round(m.widthCm*10)+' '+(LG==='ru'?'мм':'mm')+'</b></div><div class="dr"><span>'+t('l')+'</span><b>'+m.lengthCm.toFixed(1)+' '+t('sm')+' = '+Math.round(m.lengthCm*10)+' '+(LG==='ru'?'мм':'mm')+'</b></div></div><div class="det">'+(m.pageLengthCm&&m.pageLengthCm-m.lengthCm>1.5?'('+(LG==='ru'?'лист':'varaq')+' '+(m.pageLengthCm/100).toFixed(3)+' m, '+(LG==='ru'?'работа':'ish')+' '+m.meters.toFixed(3)+' m)':'')+'</div><div class="lock">'+t('lock')+'</div>'}
   else{h+='<b class="m" style="font-size:16px;color:#a16200">'+t('nom')+'</b><div class="det">'+esc(txt(m))+'</div><div class="lock">'+t('nomp')+'</div>'}
   h+=(S.vst==='wait'?'<div class="det" id="vst">'+t('vwait')+' '+S.pct+'%</div>':S.vst==='ok'?'<div class="det" style="color:#0a7a3d">'+t('vok')+'</div>':S.vst==='fail'?'<div class="det" style="color:#a16200">'+t('vfail')+' ['+(S.why||'?')+']</div>':'');
   h+='</div>'}
