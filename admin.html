@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#3A10D8">
+<meta name="theme-color" content="#14275A">
 <meta name="robots" content="noindex,nofollow">
-<link rel="manifest" href="admin.webmanifest">
+<link rel="manifest" href="admin.webmanifest"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="admin-icon-192.png">
 <link rel="apple-touch-icon" href="admin-icon-192.png">
 <title>TIMPRINT Admin</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-:root{--bg:#F5F4FB;--card:#fff;--fg:#1B1536;--mut:#5E5A78;--line:#E4E1F3;--v:#3A10D8;--o:#FF8A4C;--warn:#B4410C;--warnbg:#FFF1E8;--warnfg:#8A3A0C;--ok:#1B6B3A;--okbg:#E8F5EC;--track:#ECE9FB;--chip:rgba(255,255,255,.16)}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#120E24;--card:#1D1838;--fg:#F1EFFB;--mut:#B3AED0;--line:#2E2850;--v:#8A6CFF;--warn:#FF9A63;--warnbg:#3A2417;--warnfg:#FFB88A;--ok:#6FD39A;--okbg:#17301F;--track:#2B2550;--chip:rgba(255,255,255,.14)}}
+:root{color-scheme:dark;--bg:#0A1530;--card:#111F42;--fg:#F3F1EC;--mut:#8E9BBB;--line:#1F2F57;--v:#E8C567;--o:#E8C567;--warn:#E5655A;--warnbg:#2A1A24;--warnfg:#F0968E;--ok:#E8C567;--okbg:rgba(223,184,89,.12);--track:#1F2F57;--chip:rgba(255,255,255,.08)}
+
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 a{color:inherit;text-decoration:none}
@@ -82,6 +82,22 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stro
 .shade{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(10,8,25,.55);display:flex;align-items:flex-end;justify-content:center;z-index:20}
 .sheet{width:100%;max-width:520px;background:var(--card);border-radius:20px 20px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px))}
 .sheet h3{margin:0 0 8px;font-size:16px}
+/* ===== KC: Kirim-Chiqim uslubi (to'q ko'k + oltin) ===== */
+html,body{background:#0A1530;background-image:linear-gradient(180deg,#14275A 0%,#0C1A3F 45%,#0A1530 100%);background-attachment:fixed;font-family:Manrope,Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:linear-gradient(135deg,#14275A,#0C1A3F);border-bottom:2px solid #DFB859}
+.upd{color:#E8C567}
+.chips button.on,.pill button.on{background:linear-gradient(135deg,#E8C567,#D6A847);color:#0A1630;font-weight:700}
+.btn{background:linear-gradient(135deg,#E8C567,#D6A847);color:#0A1630;border-radius:14px}
+.btn.sec{background:#18284F;color:#E8C567}
+.card{box-shadow:none;border:1px solid #1F2F57;border-radius:18px}
+.pill button,.search,.cc{box-shadow:none;border:1px solid #1F2F57}
+.f input,.f select{background:#0C1A3F;border-radius:12px}
+.chart i{background:#3C5190}.chart i.hi{background:#E8C567}
+.toast{background:#18284F;color:#E8C567;border:1px solid #1F2F57}
+nav{background:#0C1A3F}
+.big,.v,h1{color:#F3F1EC}
+.warn .v{color:var(--warnfg)}
+/* ===== /KC ===== */
 </style>
 </head>
 <body>
@@ -93,7 +109,7 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stro
 <script>
 (function(){
 var API='https://script.google.com/macros/s/AKfycbxrgvgBAe3sC-VPqLGj4a-qSWU872AotQ7y6bEdjXX7tsGUe-7_7qyUjiSYmCGLRU7M/exec';
-var tw=window.Telegram&&Telegram.WebApp; try{if(tw){tw.ready();tw.expand();tw.setHeaderColor('#3A10D8')}}catch(e){}
+var tw=window.Telegram&&Telegram.WebApp; try{if(tw){tw.ready();tw.expand();tw.setHeaderColor('#14275A');tw.setBackgroundColor('#0A1530')}}catch(e){}
 var K='';try{if(location.search)history.replaceState(null,'',location.pathname);K=localStorage.getItem('adm_k')||''}catch(e){}
 var I=(tw&&tw.initData)||'';
 var D=null, OD={}, S={tab:'kun',day:'',per:'oy',from:'',to:'',mon:'',q:'',mf:'all',ms:'debt',cid:'',ct:'tar',lim:80};
